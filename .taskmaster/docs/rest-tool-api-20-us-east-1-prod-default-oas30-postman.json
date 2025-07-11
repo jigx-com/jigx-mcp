@@ -1,0 +1,6268 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "rest-tool-api-20-us-east-1-prod",
+    "version" : "2025-06-26T15:04:48Z"
+  },
+  "servers" : [ {
+    "url" : "https://api.jigx.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : "v2.0/tool"
+      }
+    },
+    "x-amazon-apigateway-endpoint-configuration" : {
+      "disableExecuteApiEndpoint" : true
+    }
+  } ],
+  "paths" : {
+    "/organizations" : {
+      "options" : {
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/threads/{threadId}/messages" : {
+      "get" : {
+        "operationId" : "ListThreadMessages",
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "post" : {
+        "operationId" : "AddThreadMessage",
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AddThreadMessageRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/version" : {
+      "get" : {
+        "operationId" : "GetVersion",
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        }
+      },
+      "options" : {
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/settings" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/stores/{storeId}/files/{fileId}" : {
+      "get" : {
+        "operationId" : "GetOpenAiVectorFile",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "put" : {
+        "operationId" : "AttachOpenAiVectorFile",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "DeleteOpenAiVectorFile",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/stores/{storeId}/files" : {
+      "get" : {
+        "operationId" : "ListOpenAiVectorFiles",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "post" : {
+        "operationId" : "UploadOpenAiVectorFile",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UploadOpenAiVectorFileRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/script/transpile" : {
+      "post" : {
+        "operationId" : "TranspileScript",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TranspileScriptRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TranspileScriptResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/threads/{threadId}/runs/{runId}/messages" : {
+      "get" : {
+        "operationId" : "ListThreadRunMessages",
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/stores/{storeId}" : {
+      "get" : {
+        "operationId" : "GetOpenAiVectorStore",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "storeId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/tms/{mid}" : {
+      "get" : {
+        "operationId" : "GetTms",
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetTmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "DeleteTms",
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/assistants" : {
+      "get" : {
+        "operationId" : "ListAssistants",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/threads/{threadId}/runs/{runId}/result" : {
+      "get" : {
+        "operationId" : "GetThreadRunResult",
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-poll-timeout-ms",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/settings/smsPolicy" : {
+      "get" : {
+        "operationId" : "GetSolutionSmsPolicy",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetSolutionSmsPolicyResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "put" : {
+        "operationId" : "SetSolutionSmsPolicy",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SetSolutionSmsPolicyRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/files/{fileId}" : {
+      "get" : {
+        "operationId" : "GetOpenAiFile",
+        "parameters" : [ {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "put" : {
+        "operationId" : "AttachOpenAiFile",
+        "parameters" : [ {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "DeleteOpenAiFile",
+        "parameters" : [ {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "fileId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/threads/{threadId}" : {
+      "get" : {
+        "operationId" : "GetThread",
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/files" : {
+      "get" : {
+        "operationId" : "ListOpenAiFiles",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "post" : {
+        "operationId" : "UploadOpenAiFile",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UploadOpenAiFileRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/threads" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/stores" : {
+      "get" : {
+        "operationId" : "ListOpenAiVectorStores",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/sms/{mid}" : {
+      "get" : {
+        "operationId" : "GetSms",
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetSmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "DeleteSms",
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot" : {
+      "post" : {
+        "operationId" : "StartThreadAndRun",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StartThreadAndRunRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "202 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/{proxy+}" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "proxy",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "proxy",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/acumatica/cdc" : {
+      "post" : {
+        "operationId" : "AcumaticaCdcHook",
+        "parameters" : [ {
+          "name" : "table",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AcumaticaCdcHookRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "table",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "table",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/notifications" : {
+      "get" : {
+        "operationId" : "ListOrganizationNotifications",
+        "parameters" : [ {
+          "name" : "filterMode",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "continuationToken",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListOrganizationNotificationsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "post" : {
+        "operationId" : "CreateOrganizationNotification",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateOrganizationNotificationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "202 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateOrganizationNotificationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/threads/{threadId}/runs/{runId}" : {
+      "get" : {
+        "operationId" : "GetThreadRun",
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "CancelThreadRun",
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "runId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/acumatica" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/members/{userId}" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/members/{userId}/notifications/{notificationId}" : {
+      "get" : {
+        "operationId" : "GetUserNotification",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetUserNotificationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "DeleteUserNotification",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "patch" : {
+        "operationId" : "UpdateUserNotification",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateUserNotificationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/tms" : {
+      "get" : {
+        "operationId" : "ListTms",
+        "parameters" : [ {
+          "name" : "filterMode",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "continuationToken",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "phone",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "tableId",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "protocol",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListTmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "post" : {
+        "operationId" : "SendTms",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendTmsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "202 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendTmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/sms" : {
+      "get" : {
+        "operationId" : "ListSms",
+        "parameters" : [ {
+          "name" : "filterMode",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "continuationToken",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "phone",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "tableId",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "protocol",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListSmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "post" : {
+        "operationId" : "SendSms",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendSmsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "202 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendSmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/jsonata" : {
+      "post" : {
+        "operationId" : "StartJsonataThreadAndRun",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StartJsonataThreadAndRunRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "202 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/members" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/members/{userId}/notifications" : {
+      "get" : {
+        "operationId" : "ListOrSyncUserNotifications",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "continuationToken",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "syncToken",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListOrSyncUserNotificationsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/notifications/{notificationId}" : {
+      "get" : {
+        "operationId" : "GetOrganizationNotification",
+        "parameters" : [ {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetOrganizationNotificationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "DeleteOrganizationNotification",
+        "parameters" : [ {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "notificationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/threads/{threadId}/runs" : {
+      "get" : {
+        "operationId" : "ListThreadRuns",
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "post" : {
+        "operationId" : "StartThreadRun",
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StartThreadRunRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "202 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "threadId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/script" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}" : {
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/mms/{mid}" : {
+      "get" : {
+        "operationId" : "GetMms",
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetMmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "DeleteMms",
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "mid",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/tools/gopilot/sql" : {
+      "post" : {
+        "operationId" : "StartSqlThreadAndRun",
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StartSqlThreadAndRunRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "202 response",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "x-openai-api-key",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/organizations/{organizationId}/solutions/{solutionId}/mms" : {
+      "get" : {
+        "operationId" : "ListMms",
+        "parameters" : [ {
+          "name" : "filterMode",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "continuationToken",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "phone",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "tableId",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "protocol",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListMmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cached-20" : [ ]
+        } ]
+      },
+      "post" : {
+        "operationId" : "SendMms",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendMmsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "202 response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendMmsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "token-20" : [ ]
+        } ]
+      },
+      "options" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : { }
+          }
+        }
+      },
+      "x-amazon-apigateway-any-method" : {
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "solutionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "404" : {
+            "description" : "404 response",
+            "content" : { }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "GetSolutionSmsPolicyResponse" : {
+        "required" : [ "profiles" ],
+        "type" : "object",
+        "properties" : {
+          "profiles" : {
+            "type" : "object"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "TranspileScriptRequest" : {
+        "required" : [ "items" ],
+        "type" : "object",
+        "properties" : {
+          "options" : {
+            "type" : "object",
+            "properties" : {
+              "trim" : {
+                "maxLength" : 20,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "items" : {
+            "type" : "object"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "ListMmsResponse" : {
+        "required" : [ "count", "items" ],
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+              "type" : "object",
+              "properties" : {
+                "organizationId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "createdAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                },
+                "updatedBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "createdBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "phone" : {
+                  "maxLength" : 20,
+                  "type" : "string"
+                },
+                "mid" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "solutionId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "content" : {
+                  "required" : [ "text" ],
+                  "type" : "object",
+                  "properties" : {
+                    "urls" : {
+                      "type" : "array",
+                      "items" : {
+                        "maxLength" : 2000,
+                        "pattern" : "^(?:s3|jigx):\\/{2}.{3,}$",
+                        "type" : "string"
+                      }
+                    },
+                    "text" : {
+                      "maxLength" : 1600,
+                      "type" : "string"
+                    }
+                  },
+                  "additionalProperties" : false
+                },
+                "updatedAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                }
+              },
+              "additionalProperties" : false
+            }
+          },
+          "continuationToken" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "SendTmsResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "mid" : {
+            "maxLength" : 36,
+            "minLength" : 34,
+            "type" : "string"
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "ListTmsResponse" : {
+        "required" : [ "count", "items" ],
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+              "type" : "object",
+              "properties" : {
+                "organizationId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "createdAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                },
+                "updatedBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "createdBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "phone" : {
+                  "maxLength" : 20,
+                  "type" : "string"
+                },
+                "mid" : {
+                  "maxLength" : 36,
+                  "minLength" : 34,
+                  "type" : "string"
+                },
+                "solutionId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "content" : {
+                  "required" : [ "text" ],
+                  "type" : "object",
+                  "properties" : {
+                    "text" : {
+                      "maxLength" : 1600,
+                      "type" : "string"
+                    }
+                  },
+                  "additionalProperties" : false
+                },
+                "updatedAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                }
+              },
+              "additionalProperties" : false
+            }
+          },
+          "continuationToken" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "GetSmsResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "mid" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "GetOrganizationNotificationResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "notificationId", "organizationId", "scope", "startAt", "state", "updatedAt", "updatedBy" ],
+        "type" : "object",
+        "properties" : {
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "description" : {
+            "maxLength" : 100,
+            "type" : "string"
+          },
+          "groups" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "jigId" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "inputs" : {
+                "type" : "object"
+              },
+              "screen" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "text" : {
+                "maxLength" : 200,
+                "type" : "string"
+              },
+              "title" : {
+                "maxLength" : 100,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "emails" : {
+            "type" : "array",
+            "items" : {
+              "maxLength" : 100,
+              "type" : "string",
+              "format" : "email"
+            }
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "scope" : {
+            "type" : "string",
+            "enum" : [ "ORG", "SLN", "SLN_GRP", "USR" ]
+          },
+          "notificationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "state" : {
+            "type" : "string"
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "startAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : true
+      },
+      "StartThreadRunRequest" : {
+        "required" : [ "assistantId", "model" ],
+        "type" : "object",
+        "properties" : {
+          "assistantId" : {
+            "type" : "string"
+          },
+          "instructions" : {
+            "type" : "string"
+          },
+          "maxPromptTokens" : {
+            "type" : "integer"
+          },
+          "maxCompletionTokens" : {
+            "type" : "integer"
+          },
+          "temperature" : {
+            "type" : "number"
+          },
+          "messages" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "role" ],
+              "type" : "object",
+              "properties" : {
+                "role" : {
+                  "type" : "string",
+                  "enum" : [ "user", "assistant" ]
+                },
+                "files" : {
+                  "type" : "array",
+                  "items" : {
+                    "maxLength" : 50,
+                    "type" : "string"
+                  }
+                },
+                "content" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "model" : {
+            "type" : "string"
+          },
+          "responseFormat" : {
+            "type" : "string"
+          },
+          "topP" : {
+            "type" : "number"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "StartSqlThreadAndRunRequest" : {
+        "type" : "object",
+        "properties" : {
+          "instructions" : {
+            "type" : "string"
+          },
+          "maxPromptTokens" : {
+            "type" : "integer"
+          },
+          "maxCompletionTokens" : {
+            "type" : "integer"
+          },
+          "userPrompt" : {
+            "type" : "string"
+          },
+          "temperature" : {
+            "type" : "number"
+          },
+          "messages" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "role" ],
+              "type" : "object",
+              "properties" : {
+                "role" : {
+                  "type" : "string",
+                  "enum" : [ "user", "assistant" ]
+                },
+                "files" : {
+                  "type" : "array",
+                  "items" : {
+                    "maxLength" : 50,
+                    "type" : "string"
+                  }
+                },
+                "content" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "responseFormat" : {
+            "type" : "string"
+          },
+          "topP" : {
+            "type" : "number"
+          },
+          "vectorStoreIds" : {
+            "type" : "array",
+            "items" : {
+              "maxLength" : 50,
+              "type" : "string"
+            }
+          }
+        },
+        "additionalProperties" : false
+      },
+      "AcumaticaCdcHookRequest" : {
+        "required" : [ "CompanyId", "Deleted", "Inserted", "Query" ],
+        "type" : "object",
+        "properties" : {
+          "CompanyId" : {
+            "type" : "string"
+          },
+          "Query" : {
+            "type" : "string"
+          },
+          "Deleted" : {
+            "type" : "array"
+          },
+          "Inserted" : {
+            "type" : "array"
+          }
+        },
+        "additionalProperties" : true
+      },
+      "UpdateUserNotificationRequest" : {
+        "required" : [ "state" ],
+        "type" : "object",
+        "properties" : {
+          "state" : {
+            "type" : "string",
+            "enum" : [ "QUEUED", "SENT", "RETRY", "FAILED", "READ", "DISMISSED" ]
+          }
+        },
+        "additionalProperties" : false
+      },
+      "GetMmsResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "mid" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "urls" : {
+                "type" : "array",
+                "items" : {
+                  "maxLength" : 2000,
+                  "pattern" : "^(?:s3|jigx):\\/{2}.{3,}$",
+                  "type" : "string"
+                }
+              },
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "SetSolutionSmsPolicyRequest" : {
+        "oneOf" : [ {
+          "required" : [ "profiles" ],
+          "type" : "object",
+          "properties" : {
+            "profiles" : {
+              "type" : "object"
+            }
+          },
+          "additionalProperties" : false
+        }, null ]
+      },
+      "ListOrganizationNotificationsResponse" : {
+        "required" : [ "count", "items" ],
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "createdAt", "createdBy", "notificationId", "organizationId", "scope", "startAt", "state", "updatedAt", "updatedBy" ],
+              "type" : "object",
+              "properties" : {
+                "updatedBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "description" : {
+                  "maxLength" : 100,
+                  "type" : "string"
+                },
+                "groups" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "content" : {
+                  "required" : [ "text" ],
+                  "type" : "object",
+                  "properties" : {
+                    "jigId" : {
+                      "maxLength" : 50,
+                      "type" : "string"
+                    },
+                    "inputs" : {
+                      "type" : "object"
+                    },
+                    "screen" : {
+                      "maxLength" : 50,
+                      "type" : "string"
+                    },
+                    "text" : {
+                      "maxLength" : 200,
+                      "type" : "string"
+                    },
+                    "title" : {
+                      "maxLength" : 100,
+                      "type" : "string"
+                    }
+                  },
+                  "additionalProperties" : false
+                },
+                "organizationId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "emails" : {
+                  "type" : "array",
+                  "items" : {
+                    "maxLength" : 100,
+                    "type" : "string",
+                    "format" : "email"
+                  }
+                },
+                "createdAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                },
+                "createdBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "scope" : {
+                  "type" : "string",
+                  "enum" : [ "ORG", "SLN", "SLN_GRP", "USR" ]
+                },
+                "notificationId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "state" : {
+                  "type" : "string"
+                },
+                "solutionId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "startAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                },
+                "updatedAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                }
+              },
+              "additionalProperties" : true
+            }
+          },
+          "continuationToken" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "SendSmsRequest" : {
+        "required" : [ "content", "phone", "profile" ],
+        "type" : "object",
+        "properties" : {
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "dataRow" : {
+            "required" : [ "tableId" ],
+            "type" : "object",
+            "properties" : {
+              "authorized" : {
+                "type" : "object"
+              },
+              "tableId" : {
+                "maxLength" : 50,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "profile" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          }
+        },
+        "additionalProperties" : false
+      },
+      "AddThreadMessageRequest" : {
+        "required" : [ "userPrompt" ],
+        "type" : "object",
+        "properties" : {
+          "userPrompt" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "CreateOrganizationNotificationResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "notificationId", "organizationId", "scope", "startAt", "state", "updatedAt", "updatedBy" ],
+        "type" : "object",
+        "properties" : {
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "description" : {
+            "maxLength" : 100,
+            "type" : "string"
+          },
+          "groups" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "jigId" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "inputs" : {
+                "type" : "object"
+              },
+              "screen" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "text" : {
+                "maxLength" : 200,
+                "type" : "string"
+              },
+              "title" : {
+                "maxLength" : 100,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "emails" : {
+            "type" : "array",
+            "items" : {
+              "maxLength" : 100,
+              "type" : "string",
+              "format" : "email"
+            }
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "scope" : {
+            "type" : "string",
+            "enum" : [ "ORG", "SLN", "SLN_GRP", "USR" ]
+          },
+          "notificationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "state" : {
+            "type" : "string"
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "startAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : true
+      },
+      "SendMmsResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "mid" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "urls" : {
+                "type" : "array",
+                "items" : {
+                  "maxLength" : 2000,
+                  "pattern" : "^(?:s3|jigx):\\/{2}.{3,}$",
+                  "type" : "string"
+                }
+              },
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "ListOrSyncUserNotificationsResponse" : {
+        "required" : [ "count", "items" ],
+        "type" : "object",
+        "properties" : {
+          "watermark" : {
+            "type" : "string"
+          },
+          "count" : {
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "createdAt", "createdBy", "notificationId", "organizationId", "startAt", "state", "updatedAt", "updatedBy", "userId" ],
+              "type" : "object",
+              "properties" : {
+                "organizationId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "createdAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                },
+                "updatedBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "createdBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "notificationId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "state" : {
+                  "type" : "string"
+                },
+                "userId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "content" : {
+                  "required" : [ "text" ],
+                  "type" : "object",
+                  "properties" : {
+                    "jigId" : {
+                      "maxLength" : 50,
+                      "type" : "string"
+                    },
+                    "inputs" : {
+                      "type" : "object"
+                    },
+                    "screen" : {
+                      "maxLength" : 50,
+                      "type" : "string"
+                    },
+                    "text" : {
+                      "maxLength" : 200,
+                      "type" : "string"
+                    },
+                    "title" : {
+                      "maxLength" : 100,
+                      "type" : "string"
+                    }
+                  },
+                  "additionalProperties" : false
+                },
+                "startAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                },
+                "updatedAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                }
+              },
+              "additionalProperties" : true
+            }
+          },
+          "continuationToken" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "SendMmsRequest" : {
+        "required" : [ "content", "phone", "profile" ],
+        "type" : "object",
+        "properties" : {
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "dataRow" : {
+            "required" : [ "tableId" ],
+            "type" : "object",
+            "properties" : {
+              "authorized" : {
+                "type" : "object"
+              },
+              "tableId" : {
+                "maxLength" : 50,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "profile" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "urls" : {
+                "type" : "array",
+                "items" : {
+                  "maxLength" : 2000,
+                  "pattern" : "^(?:s3|jigx):\\/{2}.{3,}$",
+                  "type" : "string"
+                }
+              },
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          }
+        },
+        "additionalProperties" : false
+      },
+      "StartJsonataThreadAndRunRequest" : {
+        "type" : "object",
+        "properties" : {
+          "instructions" : {
+            "type" : "string"
+          },
+          "maxPromptTokens" : {
+            "type" : "integer"
+          },
+          "maxCompletionTokens" : {
+            "type" : "integer"
+          },
+          "userPrompt" : {
+            "type" : "string"
+          },
+          "temperature" : {
+            "type" : "number"
+          },
+          "messages" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "role" ],
+              "type" : "object",
+              "properties" : {
+                "role" : {
+                  "type" : "string",
+                  "enum" : [ "user", "assistant" ]
+                },
+                "files" : {
+                  "type" : "array",
+                  "items" : {
+                    "maxLength" : 50,
+                    "type" : "string"
+                  }
+                },
+                "content" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "responseFormat" : {
+            "type" : "string"
+          },
+          "topP" : {
+            "type" : "number"
+          },
+          "vectorStoreIds" : {
+            "type" : "array",
+            "items" : {
+              "maxLength" : 50,
+              "type" : "string"
+            }
+          }
+        },
+        "additionalProperties" : false
+      },
+      "ListSmsResponse" : {
+        "required" : [ "count", "items" ],
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+              "type" : "object",
+              "properties" : {
+                "organizationId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "createdAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                },
+                "updatedBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "createdBy" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "phone" : {
+                  "maxLength" : 20,
+                  "type" : "string"
+                },
+                "mid" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "solutionId" : {
+                  "type" : "string",
+                  "format" : "uuid"
+                },
+                "content" : {
+                  "required" : [ "text" ],
+                  "type" : "object",
+                  "properties" : {
+                    "text" : {
+                      "maxLength" : 1600,
+                      "type" : "string"
+                    }
+                  },
+                  "additionalProperties" : false
+                },
+                "updatedAt" : {
+                  "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+                  "type" : "string"
+                }
+              },
+              "additionalProperties" : false
+            }
+          },
+          "continuationToken" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "GetUserNotificationResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "notificationId", "organizationId", "startAt", "state", "updatedAt", "updatedBy", "userId" ],
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "notificationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "state" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "jigId" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "inputs" : {
+                "type" : "object"
+              },
+              "screen" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "text" : {
+                "maxLength" : 200,
+                "type" : "string"
+              },
+              "title" : {
+                "maxLength" : 100,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "startAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : true
+      },
+      "StartThreadAndRunRequest" : {
+        "required" : [ "assistantId", "model" ],
+        "type" : "object",
+        "properties" : {
+          "assistantId" : {
+            "type" : "string"
+          },
+          "instructions" : {
+            "type" : "string"
+          },
+          "maxPromptTokens" : {
+            "type" : "integer"
+          },
+          "maxCompletionTokens" : {
+            "type" : "integer"
+          },
+          "dataRow" : {
+            "required" : [ "rid", "solutionId", "tableId" ],
+            "type" : "object",
+            "properties" : {
+              "tableId" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "solutionId" : {
+                "type" : "string",
+                "format" : "uuid"
+              },
+              "rid" : {
+                "maxLength" : 100,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "userPrompt" : {
+            "type" : "string"
+          },
+          "temperature" : {
+            "type" : "number"
+          },
+          "messages" : {
+            "type" : "array",
+            "items" : {
+              "required" : [ "content", "role" ],
+              "type" : "object",
+              "properties" : {
+                "role" : {
+                  "type" : "string",
+                  "enum" : [ "user", "assistant" ]
+                },
+                "files" : {
+                  "type" : "array",
+                  "items" : {
+                    "maxLength" : 50,
+                    "type" : "string"
+                  }
+                },
+                "content" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "model" : {
+            "type" : "string"
+          },
+          "responseFormat" : {
+            "type" : "string"
+          },
+          "topP" : {
+            "type" : "number"
+          },
+          "vectorStoreIds" : {
+            "type" : "array",
+            "items" : {
+              "maxLength" : 50,
+              "type" : "string"
+            }
+          }
+        },
+        "additionalProperties" : false
+      },
+      "TranspileScriptResponse" : {
+        "type" : "object"
+      },
+      "SendTmsRequest" : {
+        "required" : [ "content", "phone", "profile" ],
+        "type" : "object",
+        "properties" : {
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "dataRow" : {
+            "required" : [ "tableId" ],
+            "type" : "object",
+            "properties" : {
+              "authorized" : {
+                "type" : "object"
+              },
+              "tableId" : {
+                "maxLength" : 50,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "profile" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          }
+        },
+        "additionalProperties" : false
+      },
+      "GetTmsResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "mid" : {
+            "maxLength" : 36,
+            "minLength" : 34,
+            "type" : "string"
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "CreateOrganizationNotificationRequest" : {
+        "required" : [ "content", "scope" ],
+        "type" : "object",
+        "properties" : {
+          "emails" : {
+            "type" : "array",
+            "items" : {
+              "maxLength" : 100,
+              "type" : "string",
+              "format" : "email"
+            }
+          },
+          "scope" : {
+            "type" : "string",
+            "enum" : [ "ORG", "SLN", "SLN_GRP", "USR" ]
+          },
+          "description" : {
+            "maxLength" : 100,
+            "type" : "string"
+          },
+          "groups" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "jigId" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "inputs" : {
+                "type" : "object"
+              },
+              "screen" : {
+                "maxLength" : 50,
+                "type" : "string"
+              },
+              "text" : {
+                "maxLength" : 200,
+                "type" : "string"
+              },
+              "title" : {
+                "maxLength" : 100,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "startAt" : {
+            "anyOf" : [ {
+              "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+              "type" : "string"
+            }, {
+              "minimum" : 0,
+              "type" : "integer"
+            } ]
+          }
+        },
+        "additionalProperties" : false
+      },
+      "UploadOpenAiFileRequest" : {
+        "type" : "object"
+      },
+      "UploadOpenAiVectorFileRequest" : {
+        "oneOf" : [ {
+          "type" : "object"
+        }, {
+          "type" : "array"
+        } ]
+      },
+      "SendSmsResponse" : {
+        "required" : [ "content", "createdAt", "createdBy", "mid", "organizationId", "phone", "solutionId", "updatedAt", "updatedBy" ],
+        "type" : "object",
+        "properties" : {
+          "organizationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          },
+          "updatedBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "createdBy" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "phone" : {
+            "maxLength" : 20,
+            "type" : "string"
+          },
+          "mid" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "solutionId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "content" : {
+            "required" : [ "text" ],
+            "type" : "object",
+            "properties" : {
+              "text" : {
+                "maxLength" : 1600,
+                "type" : "string"
+              }
+            },
+            "additionalProperties" : false
+          },
+          "updatedAt" : {
+            "pattern" : "^\\d{4}-(?:0[0-9]|1[0-2])-(3[01]|0[1-9]|[12][0-9])[tT ](2[0-4]|[01][0-9]):([0-5][0-9]):(60|[0-5][0-9])(\\.\\d+)?([zZ]|[+-]([0-5][0-9]):(60|[0-5][0-9]))$",
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : false
+      }
+    },
+    "securitySchemes" : {
+      "token-20" : {
+        "type" : "apiKey",
+        "name" : "Authorization",
+        "in" : "header",
+        "x-amazon-apigateway-authtype" : "custom"
+      },
+      "cached-20" : {
+        "type" : "apiKey",
+        "name" : "Authorization",
+        "in" : "header",
+        "x-amazon-apigateway-authtype" : "custom"
+      }
+    }
+  }
+}
