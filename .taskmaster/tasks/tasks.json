@@ -9,7 +9,7 @@
         "testStrategy": "Verify project builds successfully, MCP SDK imports work, and TypeScript compilation passes with strict mode enabled",
         "priority": "high",
         "dependencies": [],
-        "status": "done",
+        "status": "pending",
         "subtasks": []
       },
       {
@@ -22,7 +22,7 @@
         "dependencies": [
           1
         ],
-        "status": "done",
+        "status": "pending",
         "subtasks": []
       },
       {
@@ -36,7 +36,7 @@
           1,
           2
         ],
-        "status": "done",
+        "status": "pending",
         "subtasks": [
           {
             "id": 1,
@@ -44,7 +44,7 @@
             "description": "Build the core parser to read and validate OpenAPI 3.0.1 JSON specifications, extracting basic structure including paths, operations, and metadata",
             "dependencies": [],
             "details": "Create openapi-parser.ts with functions to load JSON specs, validate OpenAPI version, extract paths object, and parse operation objects (GET, POST, etc.). Include error handling for malformed specs and create TypeScript interfaces for OpenAPI structure. Implement basic validation to ensure required fields are present.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Unit tests with sample OpenAPI specs, including valid and invalid cases. Test parsing of different HTTP methods and path structures."
           },
           {
@@ -55,7 +55,7 @@
               1
             ],
             "details": "Extend parser to extract parameters from operation objects, handling different parameter types (query, path, header, cookie). Implement $ref resolution for both local references (#/components/schemas/Model) and external references. Create utility functions to resolve nested references and handle circular dependencies. Extract request body schemas and response schemas.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Test with OpenAPI specs containing various parameter types, nested $refs, and complex schema structures. Verify circular reference handling."
           },
           {
@@ -66,7 +66,7 @@
               2
             ],
             "details": "Create schema converter that maps OpenAPI types (string, number, integer, boolean, array, object) to Zod equivalents. Handle OpenAPI formats (date, date-time, email, uri, etc.) with appropriate Zod validations. Support validation rules like minimum, maximum, pattern, enum, required fields. Handle oneOf, anyOf, allOf schema compositions. Create recursive schema building for nested objects and arrays.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Test conversion of all OpenAPI data types and formats. Verify validation rules are properly applied. Test complex schema compositions and nested structures."
           },
           {
@@ -77,7 +77,7 @@
               1
             ],
             "details": "Create utility function to convert operationId from camelCase/PascalCase to snake_case for tool names. Handle cases where operationId is missing by generating names from HTTP method and path. Build MCP Tool object structure with name, description (from operation summary/description), and placeholder for inputSchema. Extract and format tool descriptions from OpenAPI operation metadata.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Test name conversion with various operationId formats. Verify tool structure matches MCP Tool interface. Test fallback naming when operationId is absent."
           },
           {
@@ -89,7 +89,7 @@
               4
             ],
             "details": "Integrate Zod schema generator with tool definition builder. Use zodToJsonSchema to convert Zod schemas to JSON Schema format for MCP inputSchema. Combine path parameters, query parameters, and request body into single input schema. Handle authentication requirements by adding auth-related parameters to input schema. Create main generator function that takes OpenAPI spec and returns array of MCP Tool definitions. Add support for operation tags and security schemes.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "End-to-end tests with complete OpenAPI specifications. Verify generated tools have valid JSON schemas. Test with authenticated endpoints and various parameter combinations."
           }
         ]
@@ -105,7 +105,7 @@
           2,
           3
         ],
-        "status": "done",
+        "status": "pending",
         "subtasks": [
           {
             "id": 1,
@@ -113,7 +113,7 @@
             "description": "Set up the basic MCP server structure with McpServer class initialization, server configuration, and transport setup",
             "dependencies": [],
             "details": "Create server.ts file and initialize McpServer with name and version configuration. Set up StdioServerTransport for CLI integration. Configure server metadata including capabilities and supported features. Establish the basic server lifecycle management.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Unit tests for server initialization and configuration validation"
           },
           {
@@ -124,7 +124,7 @@
               1
             ],
             "details": "Implement server.registerTool() functionality to register tools with their input/output schemas. Create a tool registry that maintains tool definitions, schemas, and handler mappings. Ensure tools are properly exposed through the MCP protocol.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Unit tests for tool registration and schema validation"
           },
           {
@@ -135,7 +135,7 @@
               2
             ],
             "details": "Create request handler that receives tool calls, validates inputs using Zod schemas, and routes requests to appropriate tool handlers. Implement input sanitization and validation error handling. Ensure proper request/response flow according to MCP protocol.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Integration tests for request validation and routing with various input scenarios"
           },
           {
@@ -146,7 +146,7 @@
               3
             ],
             "details": "Implement authenticated API call functionality that handles HTTP requests with proper authentication headers. Create response processing logic that transforms API responses into CallToolResult format. Handle API rate limiting, timeouts, and connection errors.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Mock API tests for authentication flow and response handling"
           },
           {
@@ -157,7 +157,7 @@
               4
             ],
             "details": "Implement centralized error handling that detects and properly formats ZodError validation failures, API errors, and system errors. Create error response formatting that follows CallToolResult structure. Add logging and error reporting mechanisms. Ensure graceful error recovery and proper error propagation.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Error scenario testing with various error types and edge cases"
           }
         ]
@@ -173,7 +173,7 @@
           3,
           4
         ],
-        "status": "done",
+        "status": "pending",
         "subtasks": [
           {
             "id": 1,
@@ -181,7 +181,7 @@
             "description": "Load and parse the jigx-rest-api-v1-us-east-1-prod-default-oas30-postman.json file to extract endpoint definitions for the target operations",
             "dependencies": [],
             "details": "Use an OpenAPI parser library to read the JSON specification file. Extract endpoint definitions for /organizations, /organizations/{id}/solutions, /organizations/{id}/members, /organizations/{id}/solutions/{id}/databases, and /organizations/{id}/notifications. Parse HTTP methods, parameters, request/response schemas, and authentication requirements for each endpoint.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Verify that all target endpoints are correctly parsed and their schemas are accessible"
           },
           {
@@ -192,7 +192,7 @@
               1
             ],
             "details": "Transform OpenAPI schema definitions into Zod schemas for each endpoint. Handle path parameters (like organization ID, solution ID), query parameters, and request body schemas. Ensure proper type validation, required field enforcement, and optional field handling. Create reusable schema components for common data structures.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Test schema validation with valid and invalid input data to ensure proper validation behavior"
           },
           {
@@ -201,7 +201,7 @@
             "description": "Create a base HTTP client configured for the Jigx API with proper authentication header handling and base URL configuration",
             "dependencies": [],
             "details": "Set up HTTP client with base URL https://api.jigx.com/v1. Implement authentication header attachment mechanism for API requests. Handle common HTTP configurations like timeout, error handling, and response parsing. Create utility functions for making authenticated requests to the Jigx API.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Test authentication header attachment and verify successful API connectivity with a simple endpoint call"
           },
           {
@@ -213,7 +213,7 @@
               3
             ],
             "details": "Generate MCP tool definitions for each of the 5 target endpoints. Create descriptive tool names like 'jigx-list-organizations', 'jigx-get-organization-solutions', etc. Add comprehensive descriptions explaining each tool's purpose. Attach the Zod schemas as input schemas. Include appropriate hints (destructiveHint for DELETE/PUT operations, idempotentHint for GET operations).",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Validate that each tool definition has correct schema validation and proper metadata"
           },
           {
@@ -224,7 +224,7 @@
               4
             ],
             "details": "Implement the handler functions for each MCP tool that make the actual HTTP requests to the Jigx API. Handle parameter validation, URL construction with path parameters, request body formatting, and response processing. Implement proper error handling for API errors, network issues, and validation failures. Format responses appropriately for MCP consumption.",
-            "status": "done",
+            "status": "pending",
             "testStrategy": "Test each tool with various input scenarios including valid requests, invalid parameters, and error conditions to ensure robust error handling"
           }
         ]
@@ -240,7 +240,7 @@
           3,
           4
         ],
-        "status": "done",
+        "status": "pending",
         "subtasks": []
       },
       {
@@ -254,7 +254,7 @@
           3,
           4
         ],
-        "status": "done",
+        "status": "pending",
         "subtasks": []
       },
       {
@@ -333,7 +333,7 @@
     ],
     "metadata": {
       "created": "2025-07-11T21:33:22.862Z",
-      "updated": "2025-07-11T22:05:26.097Z",
+      "updated": "2025-07-11T22:14:37.196Z",
       "description": "Tasks for master context"
     }
   }

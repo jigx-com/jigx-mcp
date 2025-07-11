@@ -15,7 +15,24 @@
       "Bash(JIGX_API_KEY=test-key yarn dev)",
       "Bash(JIGX_API_KEY=test-key tsx test-server.ts)",
       "Bash(JIGX_API_KEY=test-key yarn tsx test-server.ts)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(node:*)",
+      "Bash(npx @modelcontextprotocol/inspect:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:modelcontextprotocol.io)",
+      "Bash(export JIGX_API_KEY=\"test\")",
+      "Bash(true)",
+      "Bash(timeout:*)",
+      "Bash(chmod:*)",
+      "Bash(npx tsx:*)",
+      "Bash(mcp__taskmaster-ai__get_tasks:*)",
+      "Bash(mv:*)",
+      "Bash(tree:*)",
+      "Bash(jq:*)",
+      "Bash(for file in schemas/*.json)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(echo:*)",
+      "Bash(done)"
     ],
     "deny": []
   }

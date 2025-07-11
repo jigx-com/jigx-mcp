@@ -3,6 +3,7 @@
   "version": "0.0.0-semantic-release",
   "description": "Jigx MCP",
   "type": "module",
+  "private": false,
   "main": "dist/index.js",
   "files": [
     "dist/**/*.{js,js.map,d.ts}",
@@ -18,7 +19,6 @@
     "url": "https://github.com/jigx-com/jigx-mcp/issues"
   },
   "license": "MIT",
-  "private": false,
   "keywords": [
     "jigx",
     "mcp",
@@ -32,14 +32,14 @@
   "scripts": {
     "start": "node dist/src/index.js",
     "dev": "tsx watch src/index.ts",
+    "inspect": "npx @modelcontextprotocol/inspector node src/index.ts",
     "test": "yarn run test:mcp",
     "test:mcp": "tsx --test --test-concurrency=4 src/**/*.test.ts",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
-    "clean": "rm -rf dist",
-    "build": "tsc --build",
+    "clean": "rm -rf dist && rm -rf node_modules && rm -rf package-lock.json && rm -rf yarn.lock",
+    "build": "yarn && tsc --build",
     "tc": "tsc --noEmit",
-    "typecheck": "tsc --noEmit",
     "cc": "yarn tc && yarn test && yarn lint",
     "up": "git gc && yarn global upgrade && claude update && yarn && yarn outdated",
     "prepare": "husky"
@@ -60,9 +60,9 @@
     "husky": "^9.1.7",
     "prettier": "3.6.2",
     "semantic-release": "^24.2.6",
-    "task-master-ai": "^0.18.0",
+    "task-master-ai": "^0.19.0",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.0-beta"
   },
   "release": {
     "branches": [
