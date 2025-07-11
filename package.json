@@ -1,0 +1,73 @@
+{
+  "name": "@jigx/mcp",
+  "version": "0.0.0-semantic-release",
+  "description": "Jigx MCP",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist/**/*.{js,js.map,d.ts}",
+    "!dist/**/__tests__/",
+    "CLAUDE.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jigx-com/jigx-mcp.git"
+  },
+  "homepage": "https://github.com/jigx-com/jigx-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/jigx-com/jigx-mcp/issues"
+  },
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "jigx",
+    "mcp",
+    "mobile",
+    "development",
+    "mobile-app",
+    "low-code",
+    "no-code",
+    "typescript"
+  ],
+  "scripts": {
+    "test": "yarn run test:mcp",
+    "test:mcp": "tsx --test --test-concurrency=4 src/*/mcp/*.test.ts",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "clean": "rm -rf dist",
+    "build": "tsc --build",
+    "tc": "tsc --noEmit",
+    "cc": "yarn tc && yarn test && yarn lint",
+    "up": "git gc && yarn global upgrade && claude update && yarn && yarn outdated",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.30.0",
+    "@types/node": "^24.0.8",
+    "@typescript-eslint/eslint-plugin": "^8.31.0",
+    "@typescript-eslint/parser": "^8.31.0",
+    "@upstash/context7-mcp": "^1.0.14",
+    "eslint": "^9.30.0",
+    "husky": "^9.1.7",
+    "prettier": "3.6.2",
+    "semantic-release": "^24.2.6",
+    "task-master-ai": "^0.18.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "release": {
+    "branches": [
+      "develop"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
