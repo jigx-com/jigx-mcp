@@ -99,6 +99,9 @@ Carefully read the issue and think hard about a plan to solve it before coding.
 - Revisit your assumptions if unexpected behavior occurs.
 
 # How to create a Todo List
+Use `task master mcp` if available, otherwise use the following format to create a todo list:
+
+```markdown
 Use the following format to create a todo list:
 ```markdown
 - [ ] Step 1: Description of the first step

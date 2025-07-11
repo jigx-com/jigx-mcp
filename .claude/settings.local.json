@@ -3,7 +3,11 @@
     "allow": [
       "Bash(yarn install)",
       "Bash(yarn tc)",
-      "Bash(yarn lint)"
+      "Bash(yarn lint)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(yarn:*)"
     ],
     "deny": []
   }
