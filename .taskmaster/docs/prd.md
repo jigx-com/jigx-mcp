@@ -66,8 +66,22 @@ The Jigx MCP (Model Context Protocol) Server provides AI assistants with direct 
 
 ### APIs and Integrations
 1. **Jigx REST API v1**: Core platform operations
+   - Base URL: `https://api.jigx.com/v1`
+   - Key endpoints:
+     - `/organizations` - Manage organizations
+     - `/organizations/{id}/solutions` - Solution management
+     - `/organizations/{id}/members` - Member management
+     - `/organizations/{id}/solutions/{id}/databases` - Database operations
+     - `/organizations/{id}/notifications` - Notifications
+   - Authentication: Bearer token via JIGX_API_KEY header
 2. **Data API v20**: Database and data management
+   - Base URL: `https://api.jigx.com/data/v20`
+   - Purpose: Direct database operations and data queries
+   - Authentication: Same as v1 API
 3. **Tool API v20**: Development tools and utilities
+   - Base URL: `https://api.jigx.com/tool/v20`
+   - Purpose: Development and deployment tools
+   - Authentication: Same as v1 API
 
 ### Infrastructure Requirements
 - Node.js 20+ runtime
@@ -167,11 +181,19 @@ The Jigx MCP (Model Context Protocol) Server provides AI assistants with direct 
 
 ### Technical Specifications
 - **Language**: TypeScript 5.8+
-- **Runtime**: Node.js 20+
+- **Runtime**: Node.js 18+ (MCP SDK minimum requirement)
 - **Key Dependencies**:
-  - @modelcontextprotocol/sdk
+  - @modelcontextprotocol/sdk (latest)
   - zod (validation with JSON Schema generation)
   - node-fetch or native fetch
+  
+### MCP SDK Implementation Details
+Based on SDK documentation:
+- **Server Creation**: Use `McpServer` class with name/version config
+- **Tool Registration**: `server.registerTool()` with Zod schema for input validation
+- **Transport**: StdioServerTransport for CLI integration
+- **Response Format**: `CallToolResult` with content array containing text/image types
+- **Error Handling**: Try-catch with ZodError detection for validation failures
   
 ### Validation Strategy
 - Use Zod schemas for all API request/response validation
@@ -180,9 +202,9 @@ The Jigx MCP (Model Context Protocol) Server provides AI assistants with direct 
 - Ensure type safety between TypeScript types and runtime validation
   
 ### API Documentation References
-- jigx-rest-api-v1-us-east-1-prod-default-oas30-postman.json
-- rest-data-api-20-us-east-1-prod-default-oas30-postman.json
-- rest-tool-api-20-us-east-1-prod-default-oas30-postman.json
+- schemas/jigx-rest-api-v1-us-east-1-prod-default-oas30-postman.json
+- schemas/rest-data-api-20-us-east-1-prod-default-oas30-postman.json
+- schemas/rest-tool-api-20-us-east-1-prod-default-oas30-postman.json
 
 ### Development Guidelines
 - Follow existing project conventions (no semicolons, kebab-case files)
@@ -190,6 +212,15 @@ The Jigx MCP (Model Context Protocol) Server provides AI assistants with direct 
 - Write tests for all tools
 - Document all public APIs
 - Use TypeScript strict mode
+
+### OpenAPI Parsing Strategy
+Based on analysis of Jigx API specs:
+- **Format**: OpenAPI 3.0.1 specification
+- **Structure**: Paths → Operations → Parameters/RequestBody/Responses
+- **Authentication**: Security scheme "token-v1" (Bearer token)
+- **Schema References**: Use `$ref` to components/schemas
+- **Tool Naming**: Convert operationId to snake_case (e.g., ListOrganizations → list_organizations)
+- **Parameter Handling**: Query params, path params, and request bodies mapped to Zod schemas
 
 ### Tool Implementation Pattern
 Each MCP tool should follow this consistent structure:
@@ -264,3 +295,16 @@ Key principles:
 - Type-safe throughout with TypeScript
 - Clear separation of concerns
 
+# TASKS:
+☐ Research MCP SDK documentation and patterns 
+☐ Analyze OpenAPI specs for Jigx APIs
+☐ Set up project structure with MCP SDK
+☐ Create base server configuration
+☐ Create authentication handling
+☐ Implement OpenAPI parser for tool generation
+☐ Generate tools from jigx-rest-api-v1
+☐ Generate tools from data-api-20
+☐ Generate tools from tool-api-20
+☐ Add comprehensive error handling
+☐ Create test suite
+☐ Test all generated tools

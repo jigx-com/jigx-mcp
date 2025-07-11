@@ -7,7 +7,15 @@
       "WebFetch(domain:www.npmjs.com)",
       "Bash(cat:*)",
       "Bash(ls:*)",
-      "Bash(yarn:*)"
+      "Bash(yarn:*)",
+      "Bash(mkdir:*)",
+      "Bash(find:*)",
+      "Bash(JIGX_API_KEY=test-key yarn start)",
+      "Bash(cp:*)",
+      "Bash(JIGX_API_KEY=test-key yarn dev)",
+      "Bash(JIGX_API_KEY=test-key tsx test-server.ts)",
+      "Bash(JIGX_API_KEY=test-key yarn tsx test-server.ts)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }

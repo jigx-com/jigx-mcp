@@ -30,18 +30,22 @@
     "typescript"
   ],
   "scripts": {
+    "start": "node dist/src/index.js",
+    "dev": "tsx watch src/index.ts",
     "test": "yarn run test:mcp",
-    "test:mcp": "tsx --test --test-concurrency=4 src/*/mcp/*.test.ts",
+    "test:mcp": "tsx --test --test-concurrency=4 src/**/*.test.ts",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "clean": "rm -rf dist",
     "build": "tsc --build",
     "tc": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "cc": "yarn tc && yarn test && yarn lint",
     "up": "git gc && yarn global upgrade && claude update && yarn && yarn outdated",
     "prepare": "husky"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.15.1",
     "zod": "^4.0.5"
   },
   "devDependencies": {
