@@ -28,7 +28,7 @@ async function main(): Promise<void> {
 
     // Track session metadata for expiry
     interface SessionMeta {
-      transport: StreamableHTTPServerTransport
+      readonly transport: StreamableHTTPServerTransport
       lastAccessed: number
     }
 

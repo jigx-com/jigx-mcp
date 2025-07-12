@@ -46,7 +46,7 @@ export async function handleGetSolutionCustom(args: unknown, deps: HandlerDeps):
       )
     }
 
-    // Build URL properly
+    // Build URL
     const { organizationId, solutionId } = validatedArgs
     const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/settings/custom`)
 
@@ -60,11 +60,7 @@ export async function handleGetSolutionCustom(args: unknown, deps: HandlerDeps):
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
       if (!res.ok) {

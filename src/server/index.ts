@@ -234,5 +234,5 @@ function registerExplicitTools(): void {
     handler: args => handleGetSolutionCopyPolicy(args, { logger })
   }
 
-  console.error(`Registered ${Object.keys(toolRegistry).length} explicit tools`)
+  logger.debug(`Registered ${Object.keys(toolRegistry).length} explicit tools`)
 }

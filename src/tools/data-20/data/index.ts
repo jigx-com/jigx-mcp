@@ -1,3 +1,3 @@
-export { getDatabaseTool, handleGetDatabase } from './get-database.js'
-export { listDataRowsTool, handleListDataRows } from './list-data-rows.js'
-export { getDataRowTool, handleGetDataRow } from './get-data-row.js'
+export { getDatabaseTool, handleGetDatabase } from './database.get.js'
+export { listDataRowsTool, handleListDataRows } from './data-row.list.js'
+export { getDataRowTool, handleGetDataRow } from './data-row.get.js'

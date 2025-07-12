@@ -1,4 +1,4 @@
-export { getUserTool, handleGetUser } from './get-user.js'
-export { listUsersTool, handleListUsers } from './list-users.js'
-export { getMeTool, handleGetMe } from './get-me.js'
-export { getUserSettingsTool, handleGetUserSettings } from './get-user-settings.js'
+export { getUserSettingsTool, handleGetUserSettings } from './user-settings.get.js'
+export { getUserTool, handleGetUser } from './user.get.js'
+export { handleListUsers, listUsersTool } from './user.list.js'
+export { getMeTool, handleGetMe } from './user.me.js'

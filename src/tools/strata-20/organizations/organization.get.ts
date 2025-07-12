@@ -2,8 +2,9 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
+import { OrganizationSchema } from './organization.zod.js'
 
 const InputSchema = z.object({
   // Required
@@ -16,19 +17,7 @@ const InputSchema = z.object({
   expandTags: z.boolean().optional().describe('Expand tags')
 })
 
-const OutputSchema = z.object({
-  organizationId: z.uuid(),
-  name: z.string(),
-  region: z.string(),
-  description: z.string().optional(),
-  url: z.url().optional(),
-  locked: z.boolean().optional(),
-  // Audit
-  createdAt: z.string(),
-  createdBy: z.uuid(),
-  updatedAt: z.string(),
-  updatedBy: z.uuid()
-})
+const OutputSchema = OrganizationSchema
 
 const title = 'Get Organization'
 
@@ -36,7 +25,7 @@ const title = 'Get Organization'
 export const getOrganizationTool: Tool = {
   name: 'get_organization',
   title,
-  description: 'Get organization',
+  // description: 'Get organization',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
@@ -60,7 +49,7 @@ export async function handleGetOrganization(args: unknown, deps: HandlerDeps): P
       )
     }
 
-    // Build URL properly
+    // Build URL
     const { organizationId, ...queryOptions } = validatedArgs
     const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}`)
 
@@ -81,49 +70,51 @@ export async function handleGetOrganization(args: unknown, deps: HandlerDeps): P
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
+      const res: Response = await fetch(url.toString(), request)
 
-      const res = await fetch(url.toString(), request)
-
-      if (!res.ok) {
-        const errorText = await res.text()
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
-            }
-          ]
-        }
+      // 200 OK
+      if (res.ok) {
+        return res.json()
       }
 
-      return res.json()
+      // Handle error response
+      const errorText: string = await res.text()
+      return {
+        content: [{
+          type: 'text',
+          text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+        }] satisfies CallToolResult['content']
+      }
     })
+
+    // Validate output
+    let parsed
+    try {
+      parsed = OutputSchema.parse(response)
+    } catch (outputError) {
+      return formatErrorResponse(new Error('Output validation failed: ' + (outputError instanceof z.ZodError ? outputError.issues?.map((e: z.ZodIssue) => e.message).join(', ') : String(outputError))))
+    }
 
     log.info('[MCP] handleGetOrganization: success', { duration: Date.now() - start })
     return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify(response, null, 2)
-        }
-      ]
+      content: [{
+        type: 'text',
+        text: JSON.stringify(parsed)
+      }] satisfies CallToolResult['content']
     }
   } catch (error) {
     log.error({ error }, '[MCP] handleGetOrganization: error')
+
     if (error instanceof z.ZodError) {
       return {
-        content: [
-          {
-            type: 'text',
-            text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          }
-        ]
+        content: [{
+          type: 'text',
+          text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        }] satisfies CallToolResult['content']
       }
     }
+
     // Use the error handler to format the response
     return formatErrorResponse(error as Error)
   }

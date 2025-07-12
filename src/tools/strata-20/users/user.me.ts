@@ -3,31 +3,16 @@ import { URL } from 'node:url'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
+import { UserSchema } from './user.zod.js'
 
 // Define input schema with Zod
 const InputSchema = z.object({
   expandRacl: z.boolean().optional().describe('Expand RACL (Resource Access Control List) information')
 })
 
-// TODO: Define output schema
-const OutputSchema = z.object({
-  userId: z.uuid(),
-  name: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.string().email(),
-  avatarUrl: z.string().optional(),
-  defaultOrganizationId: z.uuid().optional(),
-  status: z.string().optional(),
-  statistics: z.object({}),
-  // Audit
-  createdAt: z.string(),
-  createdBy: z.uuid(),
-  updatedAt: z.string(),
-  updatedBy: z.uuid()
-})
+const OutputSchema = UserSchema.extend({ userId: z.uuid() })
 
 const title = 'Get Current User'
 
@@ -35,7 +20,7 @@ const title = 'Get Current User'
 export const getMeTool: Tool = {
   name: 'get_me',
   title,
-  description: 'Get current user',
+  // description: 'Get current user',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
@@ -60,7 +45,7 @@ export async function handleGetMe(args: unknown, deps: HandlerDeps): Promise<Cal
       )
     }
 
-    // Build URL properly
+    // Build URL
     const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/users/me`)
 
     // Add query parameters
@@ -78,46 +63,38 @@ export async function handleGetMe(args: unknown, deps: HandlerDeps): Promise<Cal
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
-      if (!res.ok) {
-        const errorText = await res.text()
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
-            }
-          ]
-        }
+      // 200 OK
+      if (res.ok) {
+        return res.json()
       }
 
-      return res.json()
+      // Handle error response
+      const errorText = await res.text()
+      return {
+        content: [{
+          type: 'text',
+          text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+        }]
+      }
     })
 
     log.info('[MCP] handleGetMe: success', { duration: Date.now() - start })
     return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify(response, null, 2)
-        }
-      ]
+      content: [{
+        type: 'text',
+        text: JSON.stringify(response, null, 2)
+      }]
     }
   } catch (error) {
     if (error instanceof z.ZodError) {
       return {
-        content: [
-          {
-            type: 'text',
-            text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          }
-        ]
+        content: [{
+          type: 'text',
+          text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        }]
       }
     }
 

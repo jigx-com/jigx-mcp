@@ -51,7 +51,7 @@ export async function handleGetSolutionCopyPolicy(args: unknown, deps: HandlerDe
       )
     }
 
-    // Build URL properly
+    // Build URL
     const { organizationId, solutionId } = validatedArgs
     const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/settings/copyPolicy`)
 
@@ -65,11 +65,7 @@ export async function handleGetSolutionCopyPolicy(args: unknown, deps: HandlerDe
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
       if (!res.ok) {

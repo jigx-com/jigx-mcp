@@ -2,8 +2,10 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
+import { ContinuationTokenSchema, UserRoleSchema } from '../../utils/index.js'
+import { SolutionMemberSchema } from './solution-member.zod.js'
 
 // Define input schema with Zod
 const InputSchema = z.object({
@@ -11,32 +13,21 @@ const InputSchema = z.object({
   organizationId: z.uuid().describe('The organization Id'),
   solutionId: z.uuid().describe('The solution Id'),
   // Paging
-  limit: z.string().optional().describe('Maximum number of results to return'),
-  continuationToken: z.string().optional().describe('Token for pagination'),
+  limit: z.int().min(1).optional().describe('Maximum number of results to return'),
+  continuationToken: ContinuationTokenSchema.optional().describe('Token for pagination'),
   // Filters
-  userIds: z.array(z.uuid()).optional().describe('Array of user IDs to filter'),
-  emails: z.array(z.string().email()).optional().describe('Array of email addresses to filter'),
+  userIds: z.array(z.uuid()).optional().describe('Array of user Ids to filter'),
+  emails: z.array(z.email()).optional().describe('Array of email addresses to filter'),
   search: z.string().optional().describe('Search term for members'),
   groupId: z.string().optional().describe('Filter by group Id'),
-  includeRoles: z.array(z.enum(['OWNER', 'ADMIN', 'MAKER', 'USER', 'DENY'])).optional().describe('Include members with these roles'),
-  excludeRoles: z.array(z.enum(['OWNER', 'ADMIN', 'MAKER', 'USER', 'DENY'])).optional().describe('Exclude members with these roles')
+  includeRoles: z.array(UserRoleSchema).optional().describe('Include members with these roles'),
+  excludeRoles: z.array(UserRoleSchema).optional().describe('Exclude members with these roles')
 })
 
-// TODO: Define output schema
 const OutputSchema = z.object({
   count: z.number().min(0),
   continuationToken: z.string().optional(),
-  items: z.array(z.object({
-    userId: z.uuid(),
-    name: z.string(),
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.email(),
-    userRole: z.enum(['OWNER', 'ADMIN', 'MAKER', 'USER', 'DENY']),
-    groups: z.array(z.string()).optional(),
-    createdAt: z.string(),
-    updatedAt: z.string()
-  }))
+  items: z.array(SolutionMemberSchema.extend({ userId: z.uuid() }))
 })
 
 const title = 'List Solution Members'
@@ -45,7 +36,7 @@ const title = 'List Solution Members'
 export const listSolutionMembersTool: Tool = {
   name: 'list_solution_members',
   title,
-  description: 'List solution members',
+  // description: 'List solution members',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
@@ -69,7 +60,7 @@ export async function handleListSolutionMembers(args: unknown, deps: HandlerDeps
       )
     }
 
-    // Build URL properly
+    // Build URL
     const { organizationId, solutionId, ...queryOptions } = validatedArgs
     const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/members`)
 
@@ -94,49 +85,50 @@ export async function handleListSolutionMembers(args: unknown, deps: HandlerDeps
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
+      // 200 OK
       if (!res.ok) {
         const errorText = await res.text()
         return {
-          content: [
-            {
-              type: 'text',
-              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
-            }
-          ]
+          content: [{
+            type: 'text',
+            text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+          }]
         }
       }
 
       return res.json()
     })
 
+    // Validate output
+    let parsed
+    try {
+      parsed = OutputSchema.parse(response)
+    } catch (outputError) {
+      return formatErrorResponse(new Error('Output validation failed: ' + (outputError instanceof z.ZodError ? outputError.issues?.map((e: z.ZodIssue) => e.message).join(', ') : String(outputError))))
+    }
+
     log.info('[MCP] handleListSolutionMembers: success', { duration: Date.now() - start })
     return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify(response, null, 2)
-        }
-      ]
+      content: [{
+        type: 'text',
+        text: JSON.stringify(parsed)
+      }]
     }
   } catch (error) {
     log.error({ error }, '[MCP] handleListSolutionMembers: error')
+
     if (error instanceof z.ZodError) {
       return {
-        content: [
-          {
-            type: 'text',
-            text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          }
-        ]
+        content: [{
+          type: 'text',
+          text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        }]
       }
     }
+
     // Use the error handler to format the response
     return formatErrorResponse(error as Error)
   }

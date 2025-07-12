@@ -2,7 +2,7 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
 
 // Define input schema with Zod
@@ -10,47 +10,40 @@ const InputSchema = z.object({
   // Required
   organizationId: z.uuid().describe('The organization Id'),
   solutionId: z.uuid().describe('The solution Id'),
-  tableId: z.string().describe('The table Id'),
-  // Paging
-  limit: z.string().optional().describe('Maximum number of results to return'),
-  continuationToken: z.string().optional().describe('Token for pagination'),
-  syncToken: z.string().optional().describe('Sync token for getting updates since last sync'),
-  // Filters
-  filter: z.string().optional().describe('Filter expression'),
-  sort: z.string().optional().describe('Sort expression')
+  // Request body
+  category: z.string().describe('Solution category'),
+  name: z.string().describe('Solution name'),
+  title: z.string().describe('Solution title'),
+  databases: z.object({
+    default: z.object({
+      databaseId: z.literal('default'),
+      tables: z.record(z.string(), z.unknown()).nullable().optional()
+    })
+  }).optional().describe('Database configuration'),
+  stories: z.array(z.string()).optional().describe('Array of story Ids'),
+  // Query params
+  forceQueryRecompile: z.boolean().optional().describe('Force query recompilation')
 })
 
-// TODO: Define output schema
-const OutputSchema = z.object({
-  count: z.number().min(0),
-  continuationToken: z.string().optional(),
-  syncToken: z.string().optional(),
-  items: z.array(z.object({
-    // Audit
-    createdAt: z.string(),
-    createdBy: z.uuid(),
-    updatedAt: z.string(),
-    updatedBy: z.uuid()
-    // version: z.number()
-  }))
-})
+// Output schema - empty for PUT request
+const OutputSchema = z.object({})
 
-const title = 'List Data Rows'
+const title = 'Set Solution Content'
 
 // Tool definition
-export const listDataRowsTool: Tool = {
-  name: 'list_data_rows',
+export const setSolutionContentTool: Tool = {
+  name: 'set_solution_content',
   title,
-  description: 'List data rows from table',
-  annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
+  description: 'Set solution content',
+  annotations: { destructiveHint: true, idempotentHint: true, openWorldHint: false, readOnlyHint: false, title },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
 }
 
-export async function handleListDataRows(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+export async function handleSetSolutionContent(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
   const log = deps.logger
   const start = Date.now()
-  log.info({ args }, '[MCP] handleListDataRows: start')
+  log.info({ args }, '[MCP] handleSetSolutionContent: start')
   try {
     // Validate input with Zod
     const validatedArgs = InputSchema.parse(args)
@@ -65,32 +58,29 @@ export async function handleListDataRows(args: unknown, deps: HandlerDeps): Prom
       )
     }
 
-    // Build URL properly
-    const { organizationId, solutionId, tableId, ...queryOptions } = validatedArgs
-    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.DATA_V20}/organizations/${organizationId}/solutions/${solutionId}/databases/default/tables/${tableId}/rows`)
+    // Extract path params, query params, and body
+    const { organizationId, solutionId, forceQueryRecompile, ...bodyData } = validatedArgs
+
+    // Build URL
+    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/content`)
 
     // Add query parameters
-    Object.entries(queryOptions).forEach(([key, value]) => {
-      if (value !== undefined) {
-        url.searchParams.append(key, String(value))
-      }
-    })
+    if (forceQueryRecompile !== undefined) {
+      url.searchParams.append('forceQueryRecompile', String(forceQueryRecompile))
+    }
 
     // Make API call with retry logic
     const response = await withRetry(async () => {
       const request = {
-        method: 'GET',
+        method: 'PUT',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify(bodyData)
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
       if (!res.ok) {
@@ -105,10 +95,11 @@ export async function handleListDataRows(args: unknown, deps: HandlerDeps): Prom
         }
       }
 
-      return res.json()
+      // PUT returns empty response on success
+      return { success: true }
     })
 
-    log.info('[MCP] handleListDataRows: success', { duration: Date.now() - start })
+    log.info('[MCP] handleSetSolutionContent: success', { duration: Date.now() - start })
     return {
       content: [
         {
@@ -118,7 +109,7 @@ export async function handleListDataRows(args: unknown, deps: HandlerDeps): Prom
       ]
     }
   } catch (error) {
-    log.error({ error }, '[MCP] handleListDataRows: error')
+    log.error({ error }, '[MCP] handleSetSolutionContent: error')
     if (error instanceof z.ZodError) {
       return {
         content: [

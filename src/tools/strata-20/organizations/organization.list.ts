@@ -2,17 +2,19 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
+import { ContinuationTokenSchema, RegionSchema } from '../../utils/index.js'
+import { OrganizationSchema } from './organization.zod.js'
 
 const InputSchema = z.object({
   // Paging
-  limit: z.string().optional().describe('Maximum number of results to return'),
-  continuationToken: z.string().regex(/^jct-/).optional().describe('Token for pagination'),
+  limit: z.int().min(1).optional().describe('Maximum number of results to return'),
+  continuationToken: ContinuationTokenSchema.optional().describe('Token for pagination'),
   // Filters
   filterMode: z.enum(['MY', 'ALL']).optional().describe('Filter mode for organizations (MY or ALL)'),
-  region: z.enum(['us-west-2', 'us-west-1', 'us-east-1', 'eu-central-1', 'ap-southeast-2']).optional().describe('Filter by region'),
-  organizationIds: z.array(z.uuid()).optional().describe('Comma-separated list of organization IDs'),
+  region: RegionSchema.optional().describe('Filter by region'),
+  organizationIds: z.array(z.uuid()).optional().describe('Comma-separated list of organization Ids'),
   search: z.string().optional().describe('Search term for organizations'),
   // Flags
   expandAuth: z.boolean().optional().describe('Expand authentication information'),
@@ -24,19 +26,7 @@ const InputSchema = z.object({
 const OutputSchema = z.object({
   count: z.number().min(0),
   continuationToken: z.string().optional(),
-  items: z.array(z.object({
-    organizationId: z.uuid(),
-    name: z.string(),
-    region: z.string(),
-    description: z.string().optional(),
-    url: z.string().optional(),
-    locked: z.boolean().optional(),
-    // Audit
-    createdAt: z.string(),
-    createdBy: z.uuid(),
-    updatedAt: z.string(),
-    updatedBy: z.uuid()
-  }))
+  items: z.array(OrganizationSchema.extend({ organizationId: z.uuid() }))
 })
 
 const title = 'List Organizations'
@@ -45,7 +35,7 @@ const title = 'List Organizations'
 export const listOrganizationsTool: Tool = {
   name: 'list_organizations',
   title,
-  description: 'List organizations',
+  // description: 'List organizations',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
@@ -70,7 +60,7 @@ export async function handleListOrganizations(args: unknown, deps: HandlerDeps):
       )
     }
 
-    // Build URL properly
+    // Build URL
     const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations`)
 
     // Add query parameters
@@ -90,47 +80,48 @@ export async function handleListOrganizations(args: unknown, deps: HandlerDeps):
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
-      if (!res.ok) {
-        const errorText = await res.text()
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
-            }
-          ]
-        }
+      // 200 OK
+      if (res.ok) {
+        return res.json()
       }
 
-      return res.json()
+      // Handle error response
+      const errorText = await res.text()
+      return {
+        content: [{
+          type: 'text',
+          text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+        }] satisfies CallToolResult['content']
+      }
     })
+
+    // Validate output
+    let parsed
+    try {
+      parsed = OutputSchema.parse(response)
+    } catch (outputError) {
+      return formatErrorResponse(new Error('Output validation failed: ' + (outputError instanceof z.ZodError ? outputError.issues?.map((e: z.ZodIssue) => e.message).join(', ') : String(outputError))))
+    }
 
     log.info('[MCP] handleListOrganizations: success', { duration: Date.now() - start })
     return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify(response, null, 2)
-        }
-      ]
+      content: [{
+        type: 'text',
+        text: JSON.stringify(parsed)
+      }] satisfies CallToolResult['content']
     }
   } catch (error) {
     log.error({ error }, '[MCP] handleListOrganizations: error')
+
     if (error instanceof z.ZodError) {
       return {
-        content: [
-          {
-            type: 'text',
-            text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          }
-        ]
+        content: [{
+          type: 'text',
+          text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        }] satisfies CallToolResult['content']
       }
     }
 

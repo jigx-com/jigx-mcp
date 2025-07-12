@@ -2,38 +2,25 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
+import { ContinuationTokenSchema } from '../../utils/index.js'
+import { UserSchema } from './user.zod.js'
 
 // Define input schema with Zod
 const InputSchema = z.object({
   // Paging
-  limit: z.string().optional().describe('Maximum number of results to return'),
-  continuationToken: z.string().optional().describe('Token for pagination'),
+  limit: z.int().min(1).optional().describe('Maximum number of results to return'),
+  continuationToken: ContinuationTokenSchema.optional().describe('Token for pagination'),
   // Filters
-  userIds: z.array(z.uuid()).optional().describe('Array of user IDs to filter'),
+  userIds: z.array(z.uuid()).optional().describe('Array of user Ids to filter'),
   search: z.string().optional().describe('Search term for users')
 })
 
 const OutputSchema = z.object({
   count: z.number().min(0),
   continuationToken: z.string().optional(),
-  items: z.array(z.object({
-    userId: z.uuid(),
-    name: z.string(),
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string().email(),
-    avatarUrl: z.string().optional(),
-    defaultOrganizationId: z.uuid().optional(),
-    status: z.string().optional(),
-    statistics: z.object({}),
-    // Audit
-    createdAt: z.string(),
-    createdBy: z.uuid(),
-    updatedAt: z.string(),
-    updatedBy: z.uuid()
-  }))
+  items: z.array(UserSchema.extend({ userId: z.uuid() }))
 })
 
 const title = 'List Users'
@@ -42,7 +29,7 @@ const title = 'List Users'
 export const listUsersTool: Tool = {
   name: 'list_users',
   title,
-  description: 'List users',
+  // description: 'List users',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
@@ -66,7 +53,7 @@ export async function handleListUsers(args: unknown, deps: HandlerDeps): Promise
       )
     }
 
-    // Build URL properly
+    // Build URL
     const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/users`)
 
     // Add query parameters
@@ -90,49 +77,43 @@ export async function handleListUsers(args: unknown, deps: HandlerDeps): Promise
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
-      if (!res.ok) {
-        const errorText = await res.text()
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
-            }
-          ]
-        }
+      // 200 OK
+      if (res.ok) {
+        return res.json()
       }
 
-      return res.json()
+      // Handle error response
+      const errorText = await res.text()
+      return {
+        content: [{
+          type: 'text',
+          text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+        }]
+      }
     })
 
     log.info('[MCP] handleListUsers: success', { duration: Date.now() - start })
     return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify(response, null, 2)
-        }
-      ]
+      content: [{
+        type: 'text',
+        text: JSON.stringify(response, null, 2)
+      }]
     }
   } catch (error) {
     log.error({ error }, '[MCP] handleListUsers: error')
+
     if (error instanceof z.ZodError) {
       return {
-        content: [
-          {
-            type: 'text',
-            text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          }
-        ]
+        content: [{
+          type: 'text',
+          text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        }]
       }
     }
+
     // Use the error handler to format the response
     return formatErrorResponse(error as Error)
   }

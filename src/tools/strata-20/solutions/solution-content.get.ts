@@ -2,45 +2,48 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
 
 // Define input schema with Zod
 const InputSchema = z.object({
   // Required
   organizationId: z.uuid().describe('The organization Id'),
-  solutionId: z.uuid().describe('The solution Id')
+  solutionId: z.uuid().describe('The solution Id'),
+  // Flags
+  expandContent: z.boolean().optional().describe('Expand content information')
 })
 
 // TODO: Define output schema
 const OutputSchema = z.object({
-  // custom: z.object({}).optional(),
-  // copyPolicy: z.object({
-  //   allowCopyToJigx: z.boolean().optional(),
-  //   allowCopyToClipboard: z.boolean().optional()
+  // category: z.string(),
+  // name: z.string(),
+  // title: z.string(),
+  // databases: z.object({
+  //   default: z.object({
+  //     databaseId: z.literal('default'),
+  //     tables: z.record(z.string(), z.unknown()).nullable().optional()
+  //   })
   // }).optional(),
-  // sourceCode: z.object({
-  //   enabled: z.boolean().optional(),
-  //   repository: z.string().optional()
-  // }).optional()
+  // stories: z.array(z.string()).optional()
 })
 
-const title = 'Get Solution Settings'
+const title = 'Get Solution Content'
 
 // Tool definition
-export const getSolutionSettingsTool: Tool = {
-  name: 'get_solution_settings',
+export const getSolutionContentTool: Tool = {
+  name: 'get_solution_content',
   title,
-  description: 'Get solution settings',
+  description: 'Get solution content',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
 }
 
-export async function handleGetSolutionSettings(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+export async function handleGetSolutionContent(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
   const log = deps.logger
   const start = Date.now()
-  log.info({ args }, '[MCP] handleGetSolutionSettings: start')
+  log.info({ args }, '[MCP] handleGetSolutionContent: start')
   try {
     // Validate input with Zod
     const validatedArgs = InputSchema.parse(args)
@@ -55,9 +58,14 @@ export async function handleGetSolutionSettings(args: unknown, deps: HandlerDeps
       )
     }
 
-    // Build URL properly
-    const { organizationId, solutionId } = validatedArgs
-    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/settings`)
+    // Build URL
+    const { organizationId, solutionId, expandContent } = validatedArgs
+    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/content`)
+
+    // Add query parameters
+    if (expandContent !== undefined) {
+      url.searchParams.append('expandContent', String(expandContent))
+    }
 
     // Make API call with retry logic
     const response = await withRetry(async () => {
@@ -69,11 +77,7 @@ export async function handleGetSolutionSettings(args: unknown, deps: HandlerDeps
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
       if (!res.ok) {
@@ -91,7 +95,7 @@ export async function handleGetSolutionSettings(args: unknown, deps: HandlerDeps
       return res.json()
     })
 
-    log.info('[MCP] handleGetSolutionSettings: success', { duration: Date.now() - start })
+    log.info('[MCP] handleGetSolutionContent: success', { duration: Date.now() - start })
     return {
       content: [
         {
@@ -101,7 +105,7 @@ export async function handleGetSolutionSettings(args: unknown, deps: HandlerDeps
       ]
     }
   } catch (error) {
-    log.error({ error }, '[MCP] handleGetSolutionSettings: error')
+    log.error({ error }, '[MCP] handleGetSolutionContent: error')
     if (error instanceof z.ZodError) {
       return {
         content: [

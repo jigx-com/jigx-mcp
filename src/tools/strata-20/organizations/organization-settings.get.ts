@@ -2,7 +2,7 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
 
 // Define input schema with Zod
@@ -11,7 +11,6 @@ const InputSchema = z.object({
   organizationId: z.uuid().describe('The organization Id')
 })
 
-// TODO: Define output schema
 const OutputSchema = z.object({
   // custom: z.object({}).optional(),
   // features: z.object({}).optional(),
@@ -27,7 +26,7 @@ const title = 'Get Organization Settings'
 export const getOrganizationSettingsTool: Tool = {
   name: 'get_organization_settings',
   title,
-  description: 'Get organization settings',
+  // description: 'Get organization settings',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
@@ -51,7 +50,7 @@ export async function handleGetOrganizationSettings(args: unknown, deps: Handler
       )
     }
 
-    // Build URL properly
+    // Build URL
     const { organizationId } = validatedArgs
     const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/settings`)
 
@@ -65,49 +64,51 @@ export async function handleGetOrganizationSettings(args: unknown, deps: Handler
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
-      if (!res.ok) {
-        const errorText = await res.text()
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
-            }
-          ]
-        }
+      // 200 OK
+      if (res.ok) {
+        return res.json()
       }
 
-      return res.json()
+      // Handle error response
+      const errorText = await res.text()
+      return {
+        content: [{
+          type: 'text',
+          text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+        }]
+      }
     })
+
+    // Validate output
+    let parsed
+    try {
+      parsed = OutputSchema.parse(response)
+    } catch (outputError) {
+      return formatErrorResponse(new Error('Output validation failed: ' + (outputError instanceof z.ZodError ? outputError.issues?.map((e: z.ZodIssue) => e.message).join(', ') : String(outputError))))
+    }
 
     log.info('[MCP] handleGetOrganizationSettings: success', { duration: Date.now() - start })
     return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify(response, null, 2)
-        }
-      ]
+      content: [{
+        type: 'text',
+        text: JSON.stringify(parsed)
+      }]
     }
   } catch (error) {
     log.error({ error }, '[MCP] handleGetOrganizationSettings: error')
+
     if (error instanceof z.ZodError) {
       return {
-        content: [
-          {
-            type: 'text',
-            text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          }
-        ]
+        content: [{
+          type: 'text',
+          text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        }]
       }
     }
+
     // Use the error handler to format the response
     return formatErrorResponse(error as Error)
   }

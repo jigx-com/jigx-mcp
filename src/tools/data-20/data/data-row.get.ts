@@ -2,48 +2,38 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
-import type { HandlerDeps } from '../../../types/handler-deps'
+import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
+import { DataRowSchema } from './data-row.zod.js'
 
 // Define input schema with Zod
 const InputSchema = z.object({
   // Required
   organizationId: z.uuid().describe('The organization Id'),
-  solutionId: z.uuid().describe('The solution Id')
+  solutionId: z.uuid().describe('The solution Id'),
+  tableId: z.string().describe('The table Id'),
+  rid: z.string().describe('The row Id')
 })
 
-// TODO: Define output schema
-const OutputSchema = z.object({
-  // permissions: z.array(z.object({
-  //   action: z.string(),
-  //   resource: z.string(),
-  //   effect: z.enum(['ALLOW', 'DENY']),
-  //   conditions: z.object({}).optional()
-  // })),
-  // roles: z.array(z.object({
-  //   roleId: z.string(),
-  //   roleName: z.string(),
-  //   permissions: z.array(z.string())
-  // })).optional()
-})
+const OutputSchema = DataRowSchema
 
-const title = 'Get Solution JACL'
+const title = 'Get Data Row'
 
 // Tool definition
-export const getSolutionJaclTool: Tool = {
-  name: 'get_solution_jacl',
+export const getDataRowTool: Tool = {
+  name: 'get_data_row',
   title,
-  description: 'Get solution JACL (Jigx Access Control List)',
+  // description: 'Get data row',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
 }
 
 // Handler function
-export async function handleGetSolutionJacl(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+export async function handleGetDataRow(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
   const log = deps.logger
   const start = Date.now()
-  log.info({ args }, '[MCP] handleGetSolutionJacl: start')
+  log.info({ args }, '[MCP] handleGetDataRow: start')
   try {
     // Validate input with Zod
     const validatedArgs = InputSchema.parse(args)
@@ -58,9 +48,9 @@ export async function handleGetSolutionJacl(args: unknown, deps: HandlerDeps): P
       )
     }
 
-    // Build URL properly
-    const { organizationId, solutionId } = validatedArgs
-    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/jacl`)
+    // Build URL
+    const { organizationId, solutionId, tableId, rid } = validatedArgs
+    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.DATA_V20}/organizations/${organizationId}/solutions/${solutionId}/databases/default/tables/${tableId}/rows/${rid}`)
 
     // Make API call with retry logic
     const response = await withRetry(async () => {
@@ -72,11 +62,7 @@ export async function handleGetSolutionJacl(args: unknown, deps: HandlerDeps): P
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
       if (!res.ok) {
@@ -94,7 +80,7 @@ export async function handleGetSolutionJacl(args: unknown, deps: HandlerDeps): P
       return res.json()
     })
 
-    log.info('[MCP] handleGetSolutionJacl: success', { duration: Date.now() - start })
+    log.info('[MCP] handleGetDataRow: success', { duration: Date.now() - start })
     return {
       content: [
         {
@@ -104,7 +90,7 @@ export async function handleGetSolutionJacl(args: unknown, deps: HandlerDeps): P
       ]
     }
   } catch (error) {
-    log.error({ error }, '[MCP] handleGetSolutionJacl: error')
+    log.error({ error }, '[MCP] handleGetDataRow: error')
     if (error instanceof z.ZodError) {
       return {
         content: [
@@ -115,7 +101,14 @@ export async function handleGetSolutionJacl(args: unknown, deps: HandlerDeps): P
         ]
       }
     }
-    // Use the error handler to format the response
-    return formatErrorResponse(error as Error)
+
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `Failed to get data row: ${error instanceof Error ? error.message : String(error)}`
+        }
+      ]
+    }
   }
 }
