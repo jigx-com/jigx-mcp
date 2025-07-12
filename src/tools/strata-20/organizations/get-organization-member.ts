@@ -1,5 +1,4 @@
 import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
-import { URL } from 'node:url'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
@@ -81,10 +80,14 @@ export async function handleGetOrganizationMember(args: unknown): Promise<CallTo
 
       if (!res.ok) {
         const errorText = await res.text()
-        const error = new Error(`API request failed: ${res.status} ${res.statusText}`)
-        ;(error as any).status = res.status
-        ;(error as any).response = errorText
-        throw error
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+            }
+          ]
+        }
       }
 
       return res.json()

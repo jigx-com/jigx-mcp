@@ -1,5 +1,4 @@
 import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
-import { URL } from 'node:url'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
@@ -77,10 +76,14 @@ export async function handleGetDataRow(args: unknown): Promise<CallToolResult> {
 
       if (!res.ok) {
         const errorText = await res.text()
-        const error = new Error(`API request failed: ${res.status} ${res.statusText}`)
-        ;(error as any).status = res.status
-        ;(error as any).response = errorText
-        throw error
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+            }
+          ]
+        }
       }
 
       return res.json()
@@ -106,7 +109,13 @@ export async function handleGetDataRow(args: unknown): Promise<CallToolResult> {
       }
     }
 
-    // Use the error handler to format the response
-    return formatErrorResponse(error as Error)
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `Failed to get data row: ${error instanceof Error ? error.message : String(error)}`
+        }
+      ]
+    }
   }
 }

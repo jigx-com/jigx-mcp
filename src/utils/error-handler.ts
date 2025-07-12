@@ -3,6 +3,7 @@ import { types } from 'node:util'
 import { z } from 'zod'
 
 // Error categories
+/* eslint-disable no-unused-vars */
 export enum ErrorCategory {
   VALIDATION = 'VALIDATION_ERROR',
   AUTHENTICATION = 'AUTHENTICATION_ERROR',
@@ -14,13 +15,17 @@ export enum ErrorCategory {
   TIMEOUT = 'TIMEOUT_ERROR',
   UNKNOWN = 'UNKNOWN_ERROR'
 }
+/* eslint-enable no-unused-vars */
 
 // Custom error class with category
 export class JigxError extends Error {
   constructor(
     message: string,
+    // eslint-disable-next-line no-unused-vars
     public readonly category: ErrorCategory,
+    // eslint-disable-next-line no-unused-vars
     public readonly statusCode?: number,
+    // eslint-disable-next-line no-unused-vars
     public readonly details?: unknown
   ) {
     super(message)

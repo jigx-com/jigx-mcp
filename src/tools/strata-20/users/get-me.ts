@@ -84,10 +84,14 @@ export async function handleGetMe(args: unknown): Promise<CallToolResult> {
 
       if (!res.ok) {
         const errorText = await res.text()
-        const error = new Error(`API request failed: ${res.status} ${res.statusText}`)
-        ;(error as any).status = res.status
-        ;(error as any).response = errorText
-        throw error
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
+            }
+          ]
+        }
       }
 
       return res.json()

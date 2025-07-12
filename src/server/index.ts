@@ -52,7 +52,8 @@ import {
 export interface ToolRegistry {
   [toolName: string]: {
     tool: Tool
-    handler: (args: unknown) => Promise<CallToolResult>
+    // eslint-disable-next-line no-unused-vars
+    handler: (_args: unknown) => Promise<CallToolResult>
   }
 }
 
@@ -76,10 +77,6 @@ export function createJigxMcpServer(): Server {
 
   // Register explicit tools first
   registerExplicitTools()
-
-  // Load and register additional tools from OpenAPI specs
-  // TODO: Fix path resolution for schemas in compiled output
-  // loadToolsFromSpecs()
 
   // List available tools
   server.setRequestHandler(ListToolsRequestSchema, async () => {
