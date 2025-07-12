@@ -2,6 +2,7 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
+import type { HandlerDeps } from '../../../types/handler-deps'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
 
 // Define input schema with Zod
@@ -39,8 +40,10 @@ export const getSolutionContentTool: Tool = {
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
 }
 
-// Handler function
-export async function handleGetSolutionContent(args: unknown): Promise<CallToolResult> {
+export async function handleGetSolutionContent(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+  const log = deps.logger
+  const start = Date.now()
+  log.info({ args }, '[MCP] handleGetSolutionContent: start')
   try {
     // Validate input with Zod
     const validatedArgs = InputSchema.parse(args)
@@ -96,6 +99,7 @@ export async function handleGetSolutionContent(args: unknown): Promise<CallToolR
       return res.json()
     })
 
+    log.info('[MCP] handleGetSolutionContent: success', { duration: Date.now() - start })
     return {
       content: [
         {
@@ -105,6 +109,7 @@ export async function handleGetSolutionContent(args: unknown): Promise<CallToolR
       ]
     }
   } catch (error) {
+    log.error({ error }, '[MCP] handleGetSolutionContent: error')
     if (error instanceof z.ZodError) {
       return {
         content: [
@@ -115,7 +120,6 @@ export async function handleGetSolutionContent(args: unknown): Promise<CallToolR
         ]
       }
     }
-
     // Use the error handler to format the response
     return formatErrorResponse(error as Error)
   }

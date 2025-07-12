@@ -2,6 +2,7 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
+import type { HandlerDeps } from '../../../types/handler-deps'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
 
 // Define input schema with Zod
@@ -55,7 +56,11 @@ export const listOrganizationMembersTool: Tool = {
 }
 
 // Handler function
-export async function handleListOrganizationMembers(args: unknown): Promise<CallToolResult> {
+// Handler function
+export async function handleListOrganizationMembers(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+  const log = deps.logger
+  const start = Date.now()
+  log.info({ args }, '[MCP] handleListOrganizationMembers: start')
   try {
     // Validate input with Zod
     const validatedArgs = InputSchema.parse(args)
@@ -95,11 +100,7 @@ export async function handleListOrganizationMembers(args: unknown): Promise<Call
         }
       }
 
-      console.error('[MCP] Sending request:', {
-        url: url.toString(),
-        ...request
-      })
-
+      log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
       if (!res.ok) {
@@ -117,15 +118,25 @@ export async function handleListOrganizationMembers(args: unknown): Promise<Call
       return res.json()
     })
 
+    // Validate output with OutputSchema
+    let validatedResponse
+    try {
+      validatedResponse = OutputSchema.parse(response)
+    } catch (outputError) {
+      return formatErrorResponse(new Error('Output validation failed: ' + (outputError instanceof z.ZodError ? outputError.issues?.map((e: z.ZodIssue) => e.message).join(', ') : String(outputError))))
+    }
+
+    log.info('[MCP] handleListOrganizationMembers: success', { duration: Date.now() - start })
     return {
       content: [
         {
           type: 'text',
-          text: JSON.stringify(response, null, 2)
+          text: JSON.stringify(validatedResponse, null, 2)
         }
       ]
     }
   } catch (error) {
+    log.error({ error }, '[MCP] handleListOrganizationMembers: error')
     if (error instanceof z.ZodError) {
       return {
         content: [
@@ -136,7 +147,6 @@ export async function handleListOrganizationMembers(args: unknown): Promise<Call
         ]
       }
     }
-
     // Use the error handler to format the response
     return formatErrorResponse(error as Error)
   }

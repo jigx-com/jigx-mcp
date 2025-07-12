@@ -2,6 +2,7 @@ import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import * as z from 'zod'
 import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
+import type { HandlerDeps } from '../../../types/handler-deps'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
 
 const InputSchema = z.object({
@@ -51,7 +52,10 @@ export const listOrganizationsTool: Tool = {
 }
 
 // Handler function
-export async function handleListOrganizations(args: unknown): Promise<CallToolResult> {
+export async function handleListOrganizations(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+  const log = deps.logger
+  const start = Date.now()
+  log.info({ args }, '[MCP] handleListOrganizations: start')
   try {
     // Validate input with Zod
     const validatedArgs = InputSchema.parse(args)
@@ -108,6 +112,7 @@ export async function handleListOrganizations(args: unknown): Promise<CallToolRe
       return res.json()
     })
 
+    log.info('[MCP] handleListOrganizations: success', { duration: Date.now() - start })
     return {
       content: [
         {
@@ -117,6 +122,7 @@ export async function handleListOrganizations(args: unknown): Promise<CallToolRe
       ]
     }
   } catch (error) {
+    log.error({ error }, '[MCP] handleListOrganizations: error')
     if (error instanceof z.ZodError) {
       return {
         content: [

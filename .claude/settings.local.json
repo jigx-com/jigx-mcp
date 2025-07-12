@@ -32,7 +32,9 @@
       "Bash(for file in schemas/*.json)",
       "Bash(do echo \"=== $file ===\")",
       "Bash(echo:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "WebFetch(domain:blog.cloudflare.com)",
+      "WebFetch(domain:developers.cloudflare.com)"
     ],
     "deny": []
   }

@@ -1,5 +1,6 @@
 import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import { z } from 'zod'
+import type { HandlerDeps } from '../types/handler-deps'
 
 // Define input schema with Zod
 const TestToolSchema = z.object({
@@ -15,11 +16,15 @@ export const testTool: Tool = {
 }
 
 // Handler function
-export async function handleTestTool(args: unknown): Promise<CallToolResult> {
+export async function handleTestTool(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+  const log = deps.logger
+  const start = Date.now()
+  log.info({ args }, '[MCP] handleTestTool: start')
   try {
     // Validate input with Zod
     const validatedArgs = TestToolSchema.parse(args)
 
+    log.info('[MCP] handleTestTool: success', { duration: Date.now() - start })
     return {
       content: [
         {
@@ -29,6 +34,7 @@ export async function handleTestTool(args: unknown): Promise<CallToolResult> {
       ]
     }
   } catch (error) {
+    log.error({ error }, '[MCP] handleTestTool: error')
     if (error instanceof z.ZodError) {
       return {
         content: [
@@ -39,7 +45,6 @@ export async function handleTestTool(args: unknown): Promise<CallToolResult> {
         ]
       }
     }
-
     return {
       content: [
         {

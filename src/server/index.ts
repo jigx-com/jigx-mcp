@@ -2,6 +2,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js'
 import type { CallToolResult, Tool } from '@modelcontextprotocol/sdk/types.js'
 import { CallToolRequestSchema, ErrorCode, ListToolsRequestSchema, McpError } from '@modelcontextprotocol/sdk/types.js'
 import { initializeAuth } from '../auth/index.js'
+import logger from '../logger.js'
 import { getDatabaseTool, getDataRowTool, handleGetDatabase, handleGetDataRow, handleListDataRows, listDataRowsTool } from '../tools/data-20/data/index.js'
 import {
   getOrganizationMemberTool,
@@ -115,122 +116,122 @@ function registerExplicitTools(): void {
   // Register organization tools
   toolRegistry[listOrganizationsTool.name] = {
     tool: listOrganizationsTool,
-    handler: handleListOrganizations
+    handler: args => handleListOrganizations(args, { logger })
   }
 
   toolRegistry[getOrganizationTool.name] = {
     tool: getOrganizationTool,
-    handler: handleGetOrganization
+    handler: args => handleGetOrganization(args, { logger })
   }
 
   // Register solution tools
   toolRegistry[listSolutionsTool.name] = {
     tool: listSolutionsTool,
-    handler: handleListSolutions
+    handler: args => handleListSolutions(args, { logger })
   }
 
   toolRegistry[getSolutionTool.name] = {
     tool: getSolutionTool,
-    handler: handleGetSolution
+    handler: args => handleGetSolution(args, { logger })
   }
 
   // Register organization member tools
   toolRegistry[listOrganizationMembersTool.name] = {
     tool: listOrganizationMembersTool,
-    handler: handleListOrganizationMembers
+    handler: args => handleListOrganizationMembers(args, { logger })
   }
 
   toolRegistry[getOrganizationMemberTool.name] = {
     tool: getOrganizationMemberTool,
-    handler: handleGetOrganizationMember
+    handler: args => handleGetOrganizationMember(args, { logger })
   }
 
   // Register solution member tools
   toolRegistry[listSolutionMembersTool.name] = {
     tool: listSolutionMembersTool,
-    handler: handleListSolutionMembers
+    handler: args => handleListSolutionMembers(args, { logger })
   }
 
   toolRegistry[getSolutionMemberTool.name] = {
     tool: getSolutionMemberTool,
-    handler: handleGetSolutionMember
+    handler: args => handleGetSolutionMember(args, { logger })
   }
 
   // Register solution content tool
   toolRegistry[setSolutionContentTool.name] = {
     tool: setSolutionContentTool,
-    handler: handleSetSolutionContent
+    handler: args => handleSetSolutionContent(args, { logger })
   }
 
   // Register additional solution tools
   toolRegistry[getSolutionContentTool.name] = {
     tool: getSolutionContentTool,
-    handler: handleGetSolutionContent
+    handler: args => handleGetSolutionContent(args, { logger })
   }
 
   toolRegistry[getSolutionSettingsTool.name] = {
     tool: getSolutionSettingsTool,
-    handler: handleGetSolutionSettings
+    handler: args => handleGetSolutionSettings(args, { logger })
   }
 
   // Register organization settings tool
   toolRegistry[getOrganizationSettingsTool.name] = {
     tool: getOrganizationSettingsTool,
-    handler: handleGetOrganizationSettings
+    handler: args => handleGetOrganizationSettings(args, { logger })
   }
 
   // Register user tools
   toolRegistry[getUserTool.name] = {
     tool: getUserTool,
-    handler: handleGetUser
+    handler: args => handleGetUser(args, { logger })
   }
 
   toolRegistry[listUsersTool.name] = {
     tool: listUsersTool,
-    handler: handleListUsers
+    handler: args => handleListUsers(args, { logger })
   }
 
   toolRegistry[getMeTool.name] = {
     tool: getMeTool,
-    handler: handleGetMe
+    handler: args => handleGetMe(args, { logger })
   }
 
   toolRegistry[getUserSettingsTool.name] = {
     tool: getUserSettingsTool,
-    handler: handleGetUserSettings
+    handler: args => handleGetUserSettings(args, { logger })
   }
 
   // Register additional solution tools
   toolRegistry[getSolutionJaclTool.name] = {
     tool: getSolutionJaclTool,
-    handler: handleGetSolutionJacl
+    handler: args => handleGetSolutionJacl(args, { logger })
   }
 
   // Register data tools
   toolRegistry[getDatabaseTool.name] = {
     tool: getDatabaseTool,
-    handler: handleGetDatabase
+    handler: args => handleGetDatabase(args, { logger })
   }
 
   toolRegistry[listDataRowsTool.name] = {
     tool: listDataRowsTool,
-    handler: handleListDataRows
+    handler: args => handleListDataRows(args, { logger })
   }
 
   toolRegistry[getDataRowTool.name] = {
     tool: getDataRowTool,
-    handler: handleGetDataRow
+    handler: args => handleGetDataRow(args, { logger })
   }
 
   // Register additional solution tools
   toolRegistry[getSolutionCustomTool.name] = {
     tool: getSolutionCustomTool,
-    handler: handleGetSolutionCustom
+    handler: args => handleGetSolutionCustom(args, { logger })
   }
 
   toolRegistry[getSolutionCopyPolicyTool.name] = {
     tool: getSolutionCopyPolicyTool,
-    handler: handleGetSolutionCopyPolicy
+    handler: args => handleGetSolutionCopyPolicy(args, { logger })
   }
 
   console.error(`Registered ${Object.keys(toolRegistry).length} explicit tools`)
