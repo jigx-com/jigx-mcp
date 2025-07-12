@@ -18,7 +18,19 @@ export default [
         process: 'readonly',
         Buffer: 'readonly',
         __dirname: 'readonly',
-        __filename: 'readonly'
+        __filename: 'readonly',
+        // Node.js globals (Node 18+)
+        fetch: 'readonly',
+        Request: 'readonly',
+        Response: 'readonly',
+        Headers: 'readonly',
+        URL: 'readonly',
+        URLSearchParams: 'readonly',
+        RequestInit: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly'
       }
     },
     plugins: {

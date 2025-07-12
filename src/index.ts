@@ -3,7 +3,7 @@
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { createJigxMcpServer } from './server/index.js'
 
-async function main() {
+async function main(): Promise<void> {
   const server = createJigxMcpServer()
   const transport = new StdioServerTransport()
 

@@ -103,7 +103,12 @@ export class ToolGenerator {
             const error: any = new Error(`API request failed: ${response.statusText}`)
             error.statusCode = response.status
             error.response = responseData
-            error.headers = Object.fromEntries(response.headers.entries())
+            // Convert headers to plain object
+            const headersObj: Record<string, string> = {}
+            response.headers.forEach((value, key) => {
+              headersObj[key] = value
+            })
+            error.headers = headersObj
             throw error
           }
 

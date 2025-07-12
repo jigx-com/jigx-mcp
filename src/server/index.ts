@@ -52,7 +52,7 @@ import {
 export interface ToolRegistry {
   [toolName: string]: {
     tool: Tool
-    handler: (args: any) => Promise<CallToolResult>
+    handler: (args: unknown) => Promise<CallToolResult>
   }
 }
 

@@ -65,7 +65,7 @@ export class AuthManager {
   /**
    * Get sanitized config for logging
    */
-  getSanitizedConfig(): Record<string, any> {
+  getSanitizedConfig(): Record<string, string | undefined> {
     return {
       apiKey: this.sanitizedKey,
       baseUrl: this.config.baseUrl,

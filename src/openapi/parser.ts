@@ -170,53 +170,53 @@ export class OpenAPIParser {
     const resolved = this.resolveSchema(schema)
 
     switch (resolved.type) {
-      case 'string':
-        let stringSchema = z.string()
-        if (resolved.minLength) stringSchema = stringSchema.min(resolved.minLength)
-        if (resolved.maxLength) stringSchema = stringSchema.max(resolved.maxLength)
-        if (resolved.pattern) stringSchema = stringSchema.regex(new RegExp(resolved.pattern))
-        if (resolved.enum && resolved.enum.length > 0) {
-          return isRequired ? z.enum(resolved.enum as [string, ...string[]]) : z.enum(resolved.enum as [string, ...string[]]).optional()
-        }
-        if (resolved.format === 'date-time') stringSchema = stringSchema.datetime()
-        if (resolved.format === 'email') stringSchema = stringSchema.email()
-        if (resolved.format === 'url') stringSchema = stringSchema.url()
-        return isRequired ? stringSchema : stringSchema.optional()
+    case 'string':
+      let stringSchema = z.string()
+      if (resolved.minLength) stringSchema = stringSchema.min(resolved.minLength)
+      if (resolved.maxLength) stringSchema = stringSchema.max(resolved.maxLength)
+      if (resolved.pattern) stringSchema = stringSchema.regex(new RegExp(resolved.pattern))
+      if (resolved.enum && resolved.enum.length > 0) {
+        return isRequired ? z.enum(resolved.enum as [string, ...string[]]) : z.enum(resolved.enum as [string, ...string[]]).optional()
+      }
+      if (resolved.format === 'date-time') stringSchema = stringSchema.datetime()
+      if (resolved.format === 'email') stringSchema = stringSchema.email()
+      if (resolved.format === 'url') stringSchema = stringSchema.url()
+      return isRequired ? stringSchema : stringSchema.optional()
 
-      case 'number':
-      case 'integer':
-        let numberSchema = resolved.type === 'integer' ? z.number().int() : z.number()
-        if (resolved.minimum !== undefined) numberSchema = numberSchema.min(resolved.minimum)
-        if (resolved.maximum !== undefined) numberSchema = numberSchema.max(resolved.maximum)
-        return isRequired ? numberSchema : numberSchema.optional()
+    case 'number':
+    case 'integer':
+      let numberSchema = resolved.type === 'integer' ? z.number().int() : z.number()
+      if (resolved.minimum !== undefined) numberSchema = numberSchema.min(resolved.minimum)
+      if (resolved.maximum !== undefined) numberSchema = numberSchema.max(resolved.maximum)
+      return isRequired ? numberSchema : numberSchema.optional()
 
-      case 'boolean':
-        return isRequired ? z.boolean() : z.boolean().optional()
+    case 'boolean':
+      return isRequired ? z.boolean() : z.boolean().optional()
 
-      case 'array':
-        if (!resolved.items) {
-          return isRequired ? z.array(z.any()) : z.array(z.any()).optional()
-        }
-        const itemSchema = this.schemaToZod(resolved.items)
-        return isRequired ? z.array(itemSchema) : z.array(itemSchema).optional()
+    case 'array':
+      if (!resolved.items) {
+        return isRequired ? z.array(z.any()) : z.array(z.any()).optional()
+      }
+      const itemSchema = this.schemaToZod(resolved.items)
+      return isRequired ? z.array(itemSchema) : z.array(itemSchema).optional()
 
-      case 'object':
-        if (!resolved.properties) {
-          return isRequired ? z.record(z.string(), z.any()) : z.record(z.string(), z.any()).optional()
-        }
+    case 'object':
+      if (!resolved.properties) {
+        return isRequired ? z.record(z.string(), z.any()) : z.record(z.string(), z.any()).optional()
+      }
 
-        const shape: Record<string, z.ZodSchema<any>> = {}
-        const required = resolved.required || []
+      const shape: Record<string, z.ZodSchema<any>> = {}
+      const required = resolved.required || []
 
-        for (const [key, propSchema] of Object.entries(resolved.properties)) {
-          shape[key] = this.schemaToZod(propSchema, required.includes(key))
-        }
+      for (const [key, propSchema] of Object.entries(resolved.properties)) {
+        shape[key] = this.schemaToZod(propSchema, required.includes(key))
+      }
 
-        const objectSchema = z.object(shape)
-        return isRequired ? objectSchema : objectSchema.optional()
+      const objectSchema = z.object(shape)
+      return isRequired ? objectSchema : objectSchema.optional()
 
-      default:
-        return isRequired ? z.any() : z.any().optional()
+    default:
+      return isRequired ? z.any() : z.any().optional()
     }
   }
 

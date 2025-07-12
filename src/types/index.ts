@@ -4,12 +4,12 @@ export interface JigxConfig {
   readonly region?: string
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   readonly data?: T
   readonly error?: {
     readonly code: string
     readonly message: string
-    readonly details?: any
+    readonly details?: unknown
   }
   readonly status: number
 }

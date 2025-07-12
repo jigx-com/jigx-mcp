@@ -1,4 +1,5 @@
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js'
+import { types } from 'node:util'
 import { z } from 'zod'
 
 // Error categories
@@ -20,7 +21,7 @@ export class JigxError extends Error {
     message: string,
     public readonly category: ErrorCategory,
     public readonly statusCode?: number,
-    public readonly details?: any
+    public readonly details?: unknown
   ) {
     super(message)
     this.name = 'JigxError'
@@ -56,19 +57,26 @@ const DEFAULT_RETRY_CONFIG: RetryConfig = {
 /**
  * Determine if an error is retryable
  */
-export function isRetryableError(error: any): boolean {
+export function isRetryableError(error: unknown): boolean {
+  // Type guard for error objects
+  if (typeof error !== 'object' || error === null) {
+    return false
+  }
+
+  const err = error as Record<string, unknown>
+
   // Network errors are retryable
-  if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ENOTFOUND') {
+  if (err['code'] === 'ECONNREFUSED' || err['code'] === 'ETIMEDOUT' || err['code'] === 'ENOTFOUND') {
     return true
   }
 
   // 5xx errors are retryable
-  if (error.statusCode && error.statusCode >= 500 && error.statusCode < 600) {
+  if (typeof err['statusCode'] === 'number' && err['statusCode'] >= 500 && err['statusCode'] < 600) {
     return true
   }
 
   // Rate limit errors might be retryable after delay
-  if (error.statusCode === 429) {
+  if (err['statusCode'] === 429) {
     return true
   }
 
@@ -78,38 +86,45 @@ export function isRetryableError(error: any): boolean {
 /**
  * Categorize error based on status code or error type
  */
-export function categorizeError(error: any): ErrorCategory {
+export function categorizeError(error: unknown): ErrorCategory {
   // Zod validation errors
   if (error instanceof z.ZodError) {
     return ErrorCategory.VALIDATION
   }
 
+  // Type guard for error objects
+  if (typeof error !== 'object' || error === null) {
+    return ErrorCategory.UNKNOWN
+  }
+
+  const err = error as Record<string, unknown>
+
   // HTTP status codes
-  if (error.statusCode) {
-    switch (error.statusCode) {
-      case 401:
-        return ErrorCategory.AUTHENTICATION
-      case 403:
-        return ErrorCategory.AUTHORIZATION
-      case 404:
-        return ErrorCategory.NOT_FOUND
-      case 429:
-        return ErrorCategory.RATE_LIMIT
-      default:
-        if (error.statusCode >= 400 && error.statusCode < 500) {
-          return ErrorCategory.API_ERROR
-        }
-        if (error.statusCode >= 500) {
-          return ErrorCategory.API_ERROR
-        }
+  if (typeof err['statusCode'] === 'number') {
+    switch (err['statusCode']) {
+    case 401:
+      return ErrorCategory.AUTHENTICATION
+    case 403:
+      return ErrorCategory.AUTHORIZATION
+    case 404:
+      return ErrorCategory.NOT_FOUND
+    case 429:
+      return ErrorCategory.RATE_LIMIT
+    default:
+      if (err['statusCode'] >= 400 && err['statusCode'] < 500) {
+        return ErrorCategory.API_ERROR
+      }
+      if (err['statusCode'] >= 500) {
+        return ErrorCategory.API_ERROR
+      }
     }
   }
 
   // Network errors
-  if (error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND') {
+  if (err['code'] === 'ECONNREFUSED' || err['code'] === 'ENOTFOUND') {
     return ErrorCategory.NETWORK
   }
-  if (error.code === 'ETIMEDOUT') {
+  if (err['code'] === 'ETIMEDOUT') {
     return ErrorCategory.TIMEOUT
   }
 
@@ -139,31 +154,32 @@ export function sanitizeErrorMessage(message: string): string {
  */
 export function getErrorSuggestion(category: ErrorCategory): string {
   switch (category) {
-    case ErrorCategory.AUTHENTICATION:
-      return 'Check that your JIGX_API_KEY is valid and not expired'
-    case ErrorCategory.AUTHORIZATION:
-      return 'Ensure you have the necessary permissions for this operation'
-    case ErrorCategory.NOT_FOUND:
-      return 'Verify the resource Id and that it exists in your organization'
-    case ErrorCategory.RATE_LIMIT:
-      return 'You are being rate limited. Please wait before retrying'
-    case ErrorCategory.NETWORK:
-      return 'Check your network connection and try again'
-    case ErrorCategory.TIMEOUT:
-      return 'The request timed out. Try again or check if the service is available'
-    case ErrorCategory.VALIDATION:
-      return 'Check the input parameters and ensure they meet the requirements'
-    default:
-      return 'An unexpected error occurred. Please try again'
+  case ErrorCategory.AUTHENTICATION:
+    return 'Check that your JIGX_API_KEY is valid and not expired'
+  case ErrorCategory.AUTHORIZATION:
+    return 'Ensure you have the necessary permissions for this operation'
+  case ErrorCategory.NOT_FOUND:
+    return 'Verify the resource Id and that it exists in your organization'
+  case ErrorCategory.RATE_LIMIT:
+    return 'You are being rate limited. Please wait before retrying'
+  case ErrorCategory.NETWORK:
+    return 'Check your network connection and try again'
+  case ErrorCategory.TIMEOUT:
+    return 'The request timed out. Try again or check if the service is available'
+  case ErrorCategory.VALIDATION:
+    return 'Check the input parameters and ensure they meet the requirements'
+  default:
+    return 'An unexpected error occurred. Please try again'
   }
 }
 
 /**
  * Format error for MCP response
  */
-export function formatErrorResponse(error: any): CallToolResult {
+export function formatErrorResponse(error: unknown): CallToolResult {
   const category = categorizeError(error)
-  const sanitizedMessage = sanitizeErrorMessage(error.message || String(error))
+  const errorMessage = types.isNativeError(error) ? error.message : String(error)
+  const sanitizedMessage = sanitizeErrorMessage(errorMessage)
   const suggestion = getErrorSuggestion(category)
 
   let errorText = `Error: ${sanitizedMessage}`
@@ -198,7 +214,7 @@ export async function withRetry<T>(
   config: Partial<RetryConfig> = {}
 ): Promise<T> {
   const retryConfig = { ...DEFAULT_RETRY_CONFIG, ...config }
-  let lastError: any
+  let lastError: unknown
   let delay = retryConfig.initialDelayMs
 
   for (let attempt = 0; attempt <= retryConfig.maxRetries; attempt++) {
@@ -219,11 +235,14 @@ export async function withRetry<T>(
 
       // Check for rate limit headers
       if (lastError && typeof lastError === 'object' && 'statusCode' in lastError && 'headers' in lastError) {
-        const err = lastError as any
-        if (err.statusCode === 429 && err.headers?.['retry-after']) {
-          const retryAfter = parseInt(err.headers['retry-after'])
-          if (!isNaN(retryAfter)) {
-            delay = retryAfter * 1000
+        const err = lastError as Record<string, unknown>
+        if (err['statusCode'] === 429 && err['headers'] && typeof err['headers'] === 'object') {
+          const headers = err['headers'] as Record<string, unknown>
+          if (typeof headers['retry-after'] === 'string') {
+            const retryAfter = parseInt(headers['retry-after'])
+            if (!isNaN(retryAfter)) {
+              delay = retryAfter * 1000
+            }
           }
         }
       }
