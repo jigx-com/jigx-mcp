@@ -34,14 +34,56 @@ export JIGX_API_KEY=your-api-key-here
 
 ## Usage
 
-### As an MCP Server
+### Transport Modes
 
+The server supports both stdio and HTTP transports:
+
+#### Stdio Transport (Default)
 ```bash
-# Start the MCP server
+# Start the MCP server on stdio
 yarn start
+
+# Development mode with auto-reload
+yarn dev
 ```
 
-The server runs on stdio and can be integrated with any MCP-compatible AI assistant.
+#### HTTP Transport
+```bash
+# Start the HTTP server on port 3000
+yarn start:http
+
+# Development mode with HTTP transport
+yarn dev:http
+
+# Custom port
+yarn build && node dist/src/index.js --http --port=8080
+```
+
+#### Health Check
+When running in HTTP mode, you can check server status:
+```bash
+curl http://127.0.0.1:3000/health
+```
+
+#### Logging
+The server uses structured logging with [pino](https://github.com/pinojs/pino) and [pino-http](https://github.com/pinojs/pino-http):
+
+```bash
+# Set log level (error, warn, info, debug, trace)
+LOG_LEVEL=debug yarn start:http
+
+# In development, logs are pretty-printed to stderr
+# In production, logs are JSON formatted for parsing
+NODE_ENV=production yarn start:http
+```
+
+Log features:
+- **Request tracking**: Each HTTP request gets a unique ID with automatic timing
+- **Session monitoring**: Track MCP session lifecycle and management
+- **Performance metrics**: Automatic request duration and status codes
+- **Error context**: Detailed error information with stack traces
+- **Structured data**: All logs include relevant context fields (sessionId, requestId, etc.)
+- **Best practices**: Uses official pino-http middleware for Express integration
 
 ### Development
 

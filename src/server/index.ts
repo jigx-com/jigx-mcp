@@ -71,7 +71,8 @@ export function createJigxMcpServer(): Server {
     {
       capabilities: {
         tools: {}
-      }
+      },
+      instructions: 'A Model Context Protocol server providing access to Jigx low-code mobile app development platform APIs. Use these tools to manage organizations, solutions, databases, users, and app content through the Jigx platform.'
     }
   )
 
