@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const DataRowSchema = z.object({
+export const DataRowSchema = z.looseObject({
   // organizationId: z.uuid(),
   // solutionId: z.uuid(),
   // tableId: z.string(),

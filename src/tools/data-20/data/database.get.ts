@@ -13,7 +13,7 @@ const InputSchema = z.object({
 })
 
 // TODO: Define output schema
-const OutputSchema = z.object({
+const OutputSchema = z.looseObject({
   // databaseId: z.literal('default'),
   // tables: z.array(z.object({
   //   tableId: z.string(),
@@ -36,7 +36,7 @@ const title = 'Get Database'
 export const getDatabaseTool: Tool = {
   name: 'get_database',
   title,
-  description: 'Get database schema',
+  description: 'Get default DD (Dynamic Data) db',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

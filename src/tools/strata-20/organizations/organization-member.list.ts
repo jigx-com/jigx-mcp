@@ -12,7 +12,7 @@ const InputSchema = z.object({
   // Required
   organizationId: z.uuid().describe('The organization Id'),
   // Paging
-  limit: z.int().min(1).optional().describe('Maximum number of results to return'),
+  limit: z.int().min(1).max(500).optional().describe('Max result count, default 25 max 500'),
   continuationToken: ContinuationTokenSchema.optional().describe('Token for pagination'),
   // Filters
   userIds: z.array(z.uuid()).optional().describe('Array of user Ids to filter'),
@@ -34,7 +34,7 @@ const title = 'List Organization Members'
 export const listOrganizationMembersTool: Tool = {
   name: 'list_organization_members',
   title,
-  // description: 'List organization members',
+  description: 'List organization members (ORG-USRs)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

@@ -24,7 +24,7 @@ const title = 'Get User'
 export const getUserTool: Tool = {
   name: 'get_user',
   title,
-  // description: 'Get user',
+  description: 'Get user (USR)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

@@ -4,7 +4,7 @@ export const OrganizationSchema = z.object({
   organizationId: z.uuid(),
   name: z.string(),
   region: z.string(),
-  // description: z.string().optional(),
+  description: z.string().optional(),
   // url: z.url().optional(),
 
   locked: z.boolean().optional(),

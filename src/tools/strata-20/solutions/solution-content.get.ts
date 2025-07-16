@@ -15,10 +15,10 @@ const InputSchema = z.object({
 })
 
 // TODO: Define output schema
-const OutputSchema = z.object({
+const OutputSchema = z.looseObject({
   // category: z.string(),
-  // name: z.string(),
-  // title: z.string(),
+  name: z.string().describe('Programmatic name. Immutable.'),
+  title: z.string().describe('Friendly title.'),
   // databases: z.object({
   //   default: z.object({
   //     databaseId: z.literal('default'),

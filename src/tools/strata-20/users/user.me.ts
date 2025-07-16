@@ -20,7 +20,7 @@ const title = 'Get Current User'
 export const getMeTool: Tool = {
   name: 'get_me',
   title,
-  // description: 'Get current user',
+  description: 'Get current user',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

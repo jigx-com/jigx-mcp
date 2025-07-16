@@ -34,7 +34,16 @@
       "Bash(echo:*)",
       "Bash(done)",
       "WebFetch(domain:blog.cloudflare.com)",
-      "WebFetch(domain:developers.cloudflare.com)"
+      "WebFetch(domain:developers.cloudflare.com)",
+      "mcp__jigx-mcp__list_organizations",
+      "mcp__jigx-mcp__list_solutions",
+      "mcp__jigx-mcp__get_solution_content",
+      "mcp__jigx-mcp__list_users",
+      "mcp__jigx-mcp__list_organization_members",
+      "mcp__jigx-mcp__get_solution",
+      "mcp__jigx-mcp__set_solution_content",
+      "mcp__jigx-mcp__get_database",
+      "mcp__jigx-mcp__list_data_rows"
     ],
     "deny": []
   }

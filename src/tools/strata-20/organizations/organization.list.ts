@@ -9,10 +9,10 @@ import { OrganizationSchema } from './organization.zod.js'
 
 const InputSchema = z.object({
   // Paging
-  limit: z.int().min(1).optional().describe('Maximum number of results to return'),
+  limit: z.int().min(1).max(500).optional().describe('Max result count, default 25 max 500'),
   continuationToken: ContinuationTokenSchema.optional().describe('Token for pagination'),
   // Filters
-  filterMode: z.enum(['MY', 'ALL']).optional().describe('Filter mode for organizations (MY or ALL)'),
+  // filterMode: z.enum(['MY', 'ALL']).optional().describe('Filter mode for organizations (MY or ALL)'),
   region: RegionSchema.optional().describe('Filter by region'),
   organizationIds: z.array(z.uuid()).optional().describe('Comma-separated list of organization Ids'),
   search: z.string().optional().describe('Search term for organizations'),
@@ -35,7 +35,7 @@ const title = 'List Organizations'
 export const listOrganizationsTool: Tool = {
   name: 'list_organizations',
   title,
-  // description: 'List organizations',
+  description: 'List organizations (ORGs)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

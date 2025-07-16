@@ -7,7 +7,7 @@ import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
 import { DataRowSchema } from './data-row.zod.js'
 
 // Define input schema with Zod
-const InputSchema = z.object({
+const InputSchema = z.looseObject({
   // Required
   organizationId: z.uuid().describe('The organization Id'),
   solutionId: z.uuid().describe('The solution Id'),
@@ -15,7 +15,9 @@ const InputSchema = z.object({
   rid: z.string().describe('The row Id')
 })
 
-const OutputSchema = DataRowSchema
+const OutputSchema = DataRowSchema.omit({
+  rid: true
+})
 
 const title = 'Get Data Row'
 
@@ -23,7 +25,7 @@ const title = 'Get Data Row'
 export const getDataRowTool: Tool = {
   name: 'get_data_row',
   title,
-  // description: 'Get data row',
+  description: 'Get data row',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

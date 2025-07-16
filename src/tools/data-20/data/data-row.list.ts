@@ -14,9 +14,9 @@ const InputSchema = z.object({
   solutionId: z.uuid().describe('The solution Id'),
   tableId: z.string().describe('The table Id'),
   // Paging
-  limit: z.int().min(1).optional().describe('Maximum number of results to return'),
+  limit: z.int().min(1).max(500).optional().describe('Max result count, default 25 max 500'),
   continuationToken: ContinuationTokenSchema.optional().describe('Token for pagination'),
-  syncToken: ContinuationTokenSchema.optional().describe('Sync token for getting updates since last sync'),
+  // syncToken: ContinuationTokenSchema.optional().describe('Sync token for getting updates since last sync'),
   // Filters
   filter: z.string().optional().describe('Filter expression'),
   sort: z.string().optional().describe('Sort expression')
@@ -26,9 +26,7 @@ const OutputSchema = z.object({
   count: z.number().min(0),
   continuationToken: z.string().optional(),
   syncToken: z.string().optional(),
-  items: z.array(DataRowSchema.extend({
-    rid: z.string()
-  }))
+  items: z.array(DataRowSchema)
 })
 
 const title = 'List Data Rows'

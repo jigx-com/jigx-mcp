@@ -27,7 +27,7 @@ const title = 'Get Solution'
 export const getSolutionTool: Tool = {
   name: 'get_solution',
   title,
-  // description: 'Get solution',
+  description: 'Get solution (SLN)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

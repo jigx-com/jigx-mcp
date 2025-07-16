@@ -11,10 +11,10 @@ const InputSchema = z.object({
   // Required
   organizationId: z.uuid().describe('The organization Id to list solutions for'),
   // Paging
-  limit: z.int().min(1).optional().describe('Maximum number of results to return'),
+  limit: z.int().min(1).max(500).optional().describe('Max result count, default 25 max 500'),
   continuationToken: ContinuationTokenSchema.regex(/^jct-/).optional().describe('Token for pagination'),
   // Filters
-  filterMode: z.enum(['MY', 'ALL']).optional().describe('Filter mode for solutions (MY or ALL)'),
+  // filterMode: z.enum(['MY', 'ALL']).optional().describe('Filter mode for solutions (MY or ALL)'),
   solutionIds: z.array(z.uuid()).optional().describe('Array of solution Ids'),
   search: z.string().optional().describe('Search term for solutions'),
   // Flags
@@ -34,7 +34,7 @@ const title = 'List Solutions'
 export const listSolutionsTool: Tool = {
   name: 'list_solutions',
   title,
-  // description: 'List solutions',
+  description: 'List solutions (SLNs)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

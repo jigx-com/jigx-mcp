@@ -22,7 +22,7 @@ const title = 'Get Solution Member'
 export const getSolutionMemberTool: Tool = {
   name: 'get_solution_member',
   title,
-  // description: 'Get solution member',
+  description: 'Get solution member (SLN-USR)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

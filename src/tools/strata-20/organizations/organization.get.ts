@@ -27,7 +27,7 @@ const title = 'Get Organization'
 export const getOrganizationTool: Tool = {
   name: 'get_organization',
   title,
-  // description: 'Get organization',
+  description: 'Get organization (ORG)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']

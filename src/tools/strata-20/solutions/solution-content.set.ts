@@ -13,9 +13,10 @@ const InputSchema = z.object({
 
   // Request body
   content: z.looseObject({
-    name: z.string().describe('Solution name'),
-    title: z.string().describe('Solution title'),
-    category: z.string().describe('Solution category'),
+    name: z.string().describe('Programmatic name. Immutable.'),
+    title: z.string().describe('Friendly title'),
+    category: z.string(), //.describe('Solution category'),
+    description: z.string().optional(),
 
     databases: z.looseObject({}).optional().describe('Database configuration'),
     datasources: z.looseObject({}).optional().describe('Data sources configuration'),
