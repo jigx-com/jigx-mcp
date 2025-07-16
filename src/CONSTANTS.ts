@@ -8,6 +8,6 @@ export const API_VERSIONS = {
 
 export const API_ENDPOINTS = {
   ORGANIZATIONS: '/organizations',
-  USERS: '/users',
-  SOLUTIONS: '/solutions'
+  SOLUTIONS: '/solutions',
+  USERS: '/users'
 } as const

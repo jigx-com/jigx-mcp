@@ -270,6 +270,7 @@ export async function handleToolName(
     // Handle Zod validation errors
     if (error instanceof z.ZodError) {
       return {
+        isError: true,
         content: [{
           type: 'text',
           text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
@@ -279,6 +280,7 @@ export async function handleToolName(
     
     // Handle other errors
     return {
+      isError: true,
       content: [{
         type: 'text',
         text: `Failed to perform operation: ${error instanceof Error ? error.message : String(error)}`

@@ -26,32 +26,30 @@ export async function handleTestTool(args: unknown, deps: HandlerDeps): Promise<
 
     log.info('[MCP] handleTestTool: success', { duration: Date.now() - start })
     return {
-      content: [
-        {
-          type: 'text',
-          text: `Test response: ${validatedArgs.message}${validatedArgs.optional ? ` (optional: ${validatedArgs.optional})` : ''}`
-        }
-      ]
+      content: [{
+        type: 'text',
+        text: `Test response: ${validatedArgs.message}${validatedArgs.optional ? ` (optional: ${validatedArgs.optional})` : ''}`
+      }]
     }
   } catch (error) {
     log.error({ error }, '[MCP] handleTestTool: error')
+
     if (error instanceof z.ZodError) {
       return {
-        content: [
-          {
-            type: 'text',
-            text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          }
-        ]
+        isError: true,
+        content: [{
+          type: 'text',
+          text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        }]
       }
     }
+
     return {
-      content: [
-        {
-          type: 'text',
-          text: `Failed to execute test tool: ${error instanceof Error ? error.message : String(error)}`
-        }
-      ]
+      isError: true,
+      content: [{
+        type: 'text',
+        text: `Failed to execute test tool: ${error instanceof Error ? error.message : String(error)}`
+      }]
     }
   }
 }

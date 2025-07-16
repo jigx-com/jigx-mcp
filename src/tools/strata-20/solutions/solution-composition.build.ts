@@ -4,41 +4,33 @@ import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
 import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
-import { ContinuationTokenSchema } from '../../utils/index.js'
-import { UserSchema } from './user.zod.js'
 
 // Define input schema with Zod
 const InputSchema = z.object({
-  // Paging
-  limit: z.int().min(1).optional().describe('Maximum number of results to return'),
-  continuationToken: ContinuationTokenSchema.optional().describe('Token for pagination'),
-  // Filters
-  userIds: z.array(z.uuid()).optional().describe('Array of user Ids to filter'),
-  search: z.string().optional().describe('Search term for users')
+  // Required
+  organizationId: z.uuid().describe('The organization Id'),
+  solutionId: z.uuid().describe('The solution Id')
 })
 
-const OutputSchema = z.object({
-  count: z.number().min(0),
-  continuationToken: z.string().optional(),
-  items: z.array(UserSchema)
-})
+// Output schema - empty for POST request
+const OutputSchema = z.object({})
 
-const title = 'List Users'
+const title = 'Build Solution Composite'
 
 // Tool definition
-export const listUsersTool: Tool = {
-  name: 'list_users',
+export const buildSolutionCompositeTool: Tool = {
+  name: 'build_solution_composite',
   title,
-  // description: 'List users',
-  annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
+  description: 'Build solution composite',
+  annotations: { destructiveHint: true, idempotentHint: true, openWorldHint: false, readOnlyHint: false, title },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
 }
 
-export async function handleListUsers(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+export async function handleBuildSolutionComposite(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
   const log = deps.logger
   const start = Date.now()
-  log.info({ args }, '[MCP] handleListUsers: start')
+  log.info({ args }, '[MCP] handleBuildSolutionComposite: start')
   try {
     // Validate input with Zod
     const validatedArgs = InputSchema.parse(args)
@@ -53,28 +45,21 @@ export async function handleListUsers(args: unknown, deps: HandlerDeps): Promise
       )
     }
 
-    // Build URL
-    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/users`)
+    // Extract path params, query params, and body
+    const { organizationId, solutionId } = validatedArgs
 
-    // Add query parameters
-    Object.entries(validatedArgs).forEach(([key, value]) => {
-      if (value !== undefined) {
-        if (key === 'userIds' && Array.isArray(value)) {
-          url.searchParams.append(key, value.join(','))
-        } else {
-          url.searchParams.append(key, String(value))
-        }
-      }
-    })
+    // Build URL
+    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/composition`)
 
     // Make API call with retry logic
     const response: CallToolResult = await withRetry(async () => {
       const request = {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({})
       }
 
       log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
@@ -82,14 +67,9 @@ export async function handleListUsers(args: unknown, deps: HandlerDeps): Promise
 
       // Success
       if (res.ok) {
-        const json = await res.json()
-
-        log.info('[MCP] handleListUsers: success', { duration: Date.now() - start })
+        log.info('[MCP] handleBuildSolutionComposite: success', { duration: Date.now() - start })
         return {
-          content: [{
-            type: 'text',
-            text: JSON.stringify(json)
-          }]
+          content: []
         } satisfies CallToolResult
       }
 
@@ -106,7 +86,7 @@ export async function handleListUsers(args: unknown, deps: HandlerDeps): Promise
 
     return response
   } catch (error) {
-    log.error({ error }, '[MCP] handleListUsers: error')
+    log.error({ error }, '[MCP] handleBuildSolutionComposite: error')
 
     if (error instanceof z.ZodError) {
       return {

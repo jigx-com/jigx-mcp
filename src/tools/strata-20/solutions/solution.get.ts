@@ -11,12 +11,15 @@ const InputSchema = z.object({
   organizationId: z.uuid().describe('The organization Id'),
   solutionId: z.uuid().describe('The solution Id to retrieve'),
   // Flags
-  expandContent: z.boolean().optional().describe('Expand content information'),
-  expandSettings: z.boolean().optional().describe('Expand settings information'),
-  expandTags: z.boolean().optional().describe('Expand tags')
+  // expandContent: z.boolean().optional().describe('Expand content'),
+  expandSettings: z.boolean().optional().describe('Expand settings'),
+  // expandTags: z.boolean().optional().describe('Expand tags'),
+  expandComposition: z.boolean().optional().describe('Expand composition'),
 })
 
-const OutputSchema = SolutionSchema
+const OutputSchema = SolutionSchema.omit({
+  solutionId: true
+})
 
 const title = 'Get Solution'
 
@@ -60,7 +63,7 @@ export async function handleGetSolution(args: unknown, deps: HandlerDeps): Promi
     })
 
     // Make API call with retry logic
-    const response = await withRetry(async () => {
+    const response: CallToolResult = await withRetry(async () => {
       const request = {
         method: 'GET',
         headers: {
@@ -72,48 +75,52 @@ export async function handleGetSolution(args: unknown, deps: HandlerDeps): Promi
       log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
-      // 200 OK
+      // Success
       if (res.ok) {
-        return res.json()
+        const json = await res.json()
+
+        // Validate output
+        let parsed
+        try {
+          parsed = OutputSchema.parse(json)
+        } catch (outputError) {
+          return formatErrorResponse(new Error('Output validation failed: ' + (outputError instanceof z.ZodError ? outputError.issues?.map((e: z.ZodIssue) => e.message).join(', ') : String(outputError))))
+        }
+
+        log.info('[MCP] handleGetSolution: success', { duration: Date.now() - start })
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify(parsed)
+          }]
+        } satisfies CallToolResult
       }
 
-      // Handle error response
+      // Error
       const errorText = await res.text()
       return {
+        isError: true,
         content: [{
           type: 'text',
           text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
         }]
-      }
+      } satisfies CallToolResult
     })
 
-    // Validate output
-    let parsed
-    try {
-      parsed = OutputSchema.parse(response)
-    } catch (outputError) {
-      return formatErrorResponse(new Error('Output validation failed: ' + (outputError instanceof z.ZodError ? outputError.issues?.map((e: z.ZodIssue) => e.message).join(', ') : String(outputError))))
-    }
-
-    log.info('[MCP] handleGetSolution: success', { duration: Date.now() - start })
-    return {
-      content: [{
-        type: 'text',
-        text: JSON.stringify(parsed)
-      }]
-    }
+    return response
   } catch (error) {
     log.error({ error }, '[MCP] handleGetSolution: error')
+
     if (error instanceof z.ZodError) {
       return {
-        content: [
-          {
-            type: 'text',
-            text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          }
-        ]
+        isError: true,
+        content: [{
+          type: 'text',
+          text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        }]
       }
     }
+
     // Use the error handler to format the response
     return formatErrorResponse(error as Error)
   }

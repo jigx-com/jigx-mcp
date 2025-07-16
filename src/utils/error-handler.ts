@@ -108,21 +108,21 @@ export function categorizeError(error: unknown): ErrorCategory {
   // HTTP status codes
   if (typeof err['statusCode'] === 'number') {
     switch (err['statusCode']) {
-    case 401:
-      return ErrorCategory.AUTHENTICATION
-    case 403:
-      return ErrorCategory.AUTHORIZATION
-    case 404:
-      return ErrorCategory.NOT_FOUND
-    case 429:
-      return ErrorCategory.RATE_LIMIT
-    default:
-      if (err['statusCode'] >= 400 && err['statusCode'] < 500) {
-        return ErrorCategory.API_ERROR
-      }
-      if (err['statusCode'] >= 500) {
-        return ErrorCategory.API_ERROR
-      }
+      case 401:
+        return ErrorCategory.AUTHENTICATION
+      case 403:
+        return ErrorCategory.AUTHORIZATION
+      case 404:
+        return ErrorCategory.NOT_FOUND
+      case 429:
+        return ErrorCategory.RATE_LIMIT
+      default:
+        if (err['statusCode'] >= 400 && err['statusCode'] < 500) {
+          return ErrorCategory.API_ERROR
+        }
+        if (err['statusCode'] >= 500) {
+          return ErrorCategory.API_ERROR
+        }
     }
   }
 
@@ -160,22 +160,22 @@ export function sanitizeErrorMessage(message: string): string {
  */
 export function getErrorSuggestion(category: ErrorCategory): string {
   switch (category) {
-  case ErrorCategory.AUTHENTICATION:
-    return 'Check that your JIGX_API_KEY is valid and not expired'
-  case ErrorCategory.AUTHORIZATION:
-    return 'Ensure you have the necessary permissions for this operation'
-  case ErrorCategory.NOT_FOUND:
-    return 'Verify the resource Id and that it exists in your organization'
-  case ErrorCategory.RATE_LIMIT:
-    return 'You are being rate limited. Please wait before retrying'
-  case ErrorCategory.NETWORK:
-    return 'Check your network connection and try again'
-  case ErrorCategory.TIMEOUT:
-    return 'The request timed out. Try again or check if the service is available'
-  case ErrorCategory.VALIDATION:
-    return 'Check the input parameters and ensure they meet the requirements'
-  default:
-    return 'An unexpected error occurred. Please try again'
+    case ErrorCategory.AUTHENTICATION:
+      return 'Check that your JIGX_API_KEY is valid and not expired'
+    case ErrorCategory.AUTHORIZATION:
+      return 'Ensure you have the necessary permissions for this operation'
+    case ErrorCategory.NOT_FOUND:
+      return 'Verify the resource Id and that it exists in your organization'
+    case ErrorCategory.RATE_LIMIT:
+      return 'You are being rate limited. Please wait before retrying'
+    case ErrorCategory.NETWORK:
+      return 'Check your network connection and try again'
+    case ErrorCategory.TIMEOUT:
+      return 'The request timed out. Try again or check if the service is available'
+    case ErrorCategory.VALIDATION:
+      return 'Check the input parameters and ensure they meet the requirements'
+    default:
+      return 'An unexpected error occurred. Please try again'
   }
 }
 
@@ -203,12 +203,11 @@ export function formatErrorResponse(error: unknown): CallToolResult {
   }
 
   return {
-    content: [
-      {
-        type: 'text',
-        text: errorText
-      }
-    ]
+    isError: true,
+    content: [{
+      type: 'text',
+      text: errorText
+    }]
   }
 }
 

@@ -5,6 +5,14 @@ import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
 import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
 
+const MAX_COMPOSITE_SOURCES = 2
+// const AllCompositeMergeConfigTypes: readonly string[] = ['skip', 'replace', 'fail']
+// const AllCompositeTriggerTypes: readonly string[] = ['manual', 'immediate', 'none'] as const
+// const _triggerSchema = z.union([
+//   z.number().min(0).max(86400), // seconds (max 24 hours)
+//   z.enum(AllCompositeTriggerTypes)
+// ]).default('immediate').describe('Trigger type for composite solution updates')
+
 // Define input schema with Zod
 const InputSchema = z.object({
   // Required
@@ -12,40 +20,51 @@ const InputSchema = z.object({
   solutionId: z.uuid().describe('The solution Id'),
 
   // Request body
-  content: z.looseObject({
-    name: z.string().describe('Solution name'),
-    title: z.string().describe('Solution title'),
-    category: z.string().describe('Solution category'),
+  primary: z.object({
+    organizationId: z.uuid(),
+    solutionId: z.uuid()
+  }),
 
-    databases: z.looseObject({}).optional().describe('Database configuration'),
-    datasources: z.looseObject({}).optional().describe('Data sources configuration'),
-    functions: z.looseObject({}).optional().describe('Functions configuration'),
-    jigs: z.looseObject({}).optional().describe('Screens configuration')
-  })
+  modules: z.array(
+    z.object({
+      organizationId: z.uuid(),
+      solutionId: z.uuid()
+      // includePatterns: z.array(z.string()).optional(),
+      // excludePatterns: z.array(z.string()).optional()
+    })
+  ).min(1).max(MAX_COMPOSITE_SOURCES)
 
-  // Query params
-  // forceQueryRecompile: z.boolean().optional().describe('Force query recompilation')
+  // trigger: z.object({
+  //   onPrimaryUpdate: _triggerSchema,
+  //   onModuleUpdate: _triggerSchema
+  // }),
+
+  // merge: z.object({
+  //   functions: z.enum(AllCompositeMergeConfigTypes).default('skip'),
+  //   datasources: z.enum(AllCompositeMergeConfigTypes).default('skip'),
+  //   jigs: z.enum(AllCompositeMergeConfigTypes).default('skip')
+  // })
 })
 
 // Output schema - empty for PUT request
 const OutputSchema = z.object({})
 
-const title = 'Set Solution Content'
+const title = 'Merge Solution Composite'
 
 // Tool definition
-export const setSolutionContentTool: Tool = {
-  name: 'set_solution_content',
+export const mergeSolutionCompositeTool: Tool = {
+  name: 'merge_solution_composite',
   title,
-  description: 'Set solution content',
+  description: 'Merge solution composite',
   annotations: { destructiveHint: true, idempotentHint: true, openWorldHint: false, readOnlyHint: false, title },
   inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
   outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
 }
 
-export async function handleSetSolutionContent(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
+export async function handleMergeSolutionComposite(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {
   const log = deps.logger
   const start = Date.now()
-  log.info({ args }, '[MCP] handleSetSolutionContent: start')
+  log.info({ args }, '[MCP] handleMergeSolutionComposite: start')
   try {
     // Validate input with Zod
     const validatedArgs = InputSchema.parse(args)
@@ -61,15 +80,10 @@ export async function handleSetSolutionContent(args: unknown, deps: HandlerDeps)
     }
 
     // Extract path params, query params, and body
-    const { organizationId, solutionId, content } = validatedArgs
+    const { organizationId, solutionId, ...bodyData } = validatedArgs
 
     // Build URL
-    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/content`)
-
-    // Add query parameters
-    // if (forceQueryRecompile !== undefined) {
-    //   url.searchParams.append('forceQueryRecompile', String(forceQueryRecompile))
-    // }
+    const url = new URL(`${API_BASE_URL}/${API_VERSIONS.STRATA_V20}/organizations/${organizationId}/solutions/${solutionId}/composition`)
 
     // Make API call with retry logic
     const response: CallToolResult = await withRetry(async () => {
@@ -79,7 +93,11 @@ export async function handleSetSolutionContent(args: unknown, deps: HandlerDeps)
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(content)
+        body: JSON.stringify({
+          ...bodyData,
+          trigger: { onPrimaryUpdate: 'immediate', onModuleUpdate: 'immediate' },
+          merge: { functions: 'skip', datasources: 'skip', jigs: 'skip' }
+        })
       }
 
       log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
@@ -87,7 +105,7 @@ export async function handleSetSolutionContent(args: unknown, deps: HandlerDeps)
 
       // Success
       if (res.ok) {
-        log.info('[MCP] handleSetSolutionContent: success', { duration: Date.now() - start })
+        log.info('[MCP] handleMergeSolutionComposite: success', { duration: Date.now() - start })
         return {
           content: []
         } satisfies CallToolResult
@@ -106,7 +124,7 @@ export async function handleSetSolutionContent(args: unknown, deps: HandlerDeps)
 
     return response
   } catch (error) {
-    log.error({ error }, '[MCP] handleSetSolutionContent: error')
+    log.error({ error }, '[MCP] handleMergeSolutionComposite: error')
 
     if (error instanceof z.ZodError) {
       return {

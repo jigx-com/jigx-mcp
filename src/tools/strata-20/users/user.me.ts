@@ -12,7 +12,7 @@ const InputSchema = z.object({
   expandRacl: z.boolean().optional().describe('Expand RACL (Resource Access Control List) information')
 })
 
-const OutputSchema = UserSchema.extend({ userId: z.uuid() })
+const OutputSchema = UserSchema
 
 const title = 'Get Current User'
 
@@ -54,7 +54,7 @@ export async function handleGetMe(args: unknown, deps: HandlerDeps): Promise<Cal
     }
 
     // Make API call with retry logic
-    const response = await withRetry(async () => {
+    const response: CallToolResult = await withRetry(async () => {
       const request = {
         method: 'GET',
         headers: {
@@ -66,31 +66,37 @@ export async function handleGetMe(args: unknown, deps: HandlerDeps): Promise<Cal
       log.debug({ url: url.toString(), ...request }, '[MCP] Sending request')
       const res = await fetch(url.toString(), request)
 
-      // 200 OK
+      // Success
       if (res.ok) {
-        return res.json()
+        const json = await res.json()
+
+        log.info('[MCP] handleGetMe: success', { duration: Date.now() - start })
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify(json)
+          }]
+        } satisfies CallToolResult
       }
 
-      // Handle error response
+      // Error
       const errorText = await res.text()
       return {
+        isError: true,
         content: [{
           type: 'text',
           text: `API request failed: ${res.status} ${res.statusText} - ${errorText}`
         }]
-      }
+      } satisfies CallToolResult
     })
 
-    log.info('[MCP] handleGetMe: success', { duration: Date.now() - start })
-    return {
-      content: [{
-        type: 'text',
-        text: JSON.stringify(response, null, 2)
-      }]
-    }
+    return response
   } catch (error) {
+    log.error({ error }, '[MCP] handleListUsers: error')
+
     if (error instanceof z.ZodError) {
       return {
+        isError: true,
         content: [{
           type: 'text',
           text: `Validation error: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
@@ -98,7 +104,6 @@ export async function handleGetMe(args: unknown, deps: HandlerDeps): Promise<Cal
       }
     }
 
-    log.error({ error }, '[MCP] handleGetMe: error')
     // Use the error handler to format the response
     return formatErrorResponse(error as Error)
   }

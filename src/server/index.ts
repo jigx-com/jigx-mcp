@@ -17,6 +17,7 @@ import {
   listOrganizationsTool
 } from '../tools/strata-20/organizations/index.js'
 import {
+  buildSolutionCompositeTool,
   getSolutionContentTool,
   getSolutionCopyPolicyTool,
   getSolutionCustomTool,
@@ -24,6 +25,7 @@ import {
   getSolutionMemberTool,
   getSolutionSettingsTool,
   getSolutionTool,
+  handleBuildSolutionComposite,
   handleGetSolution,
   handleGetSolutionContent,
   handleGetSolutionCopyPolicy,
@@ -33,9 +35,11 @@ import {
   handleGetSolutionSettings,
   handleListSolutionMembers,
   handleListSolutions,
+  handleMergeSolutionComposite,
   handleSetSolutionContent,
   listSolutionMembersTool,
   listSolutionsTool,
+  mergeSolutionCompositeTool,
   setSolutionContentTool
 } from '../tools/strata-20/solutions/index.js'
 import {
@@ -161,6 +165,17 @@ function registerExplicitTools(): void {
   toolRegistry[setSolutionContentTool.name] = {
     tool: setSolutionContentTool,
     handler: args => handleSetSolutionContent(args, { logger })
+  }
+
+  // Register solution composition tool
+  toolRegistry[mergeSolutionCompositeTool.name] = {
+    tool: mergeSolutionCompositeTool,
+    handler: args => handleMergeSolutionComposite(args, { logger })
+  }
+
+  toolRegistry[buildSolutionCompositeTool.name] = {
+    tool: buildSolutionCompositeTool,
+    handler: args => handleBuildSolutionComposite(args, { logger })
   }
 
   // Register additional solution tools
