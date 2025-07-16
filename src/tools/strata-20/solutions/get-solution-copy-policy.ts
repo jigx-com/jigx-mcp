@@ -4,6 +4,7 @@ import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
 import type { HandlerDeps } from '../../../types/handler-deps'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
+import { toInputSchema, toOutputSchema } from '../../utils/index.js'
 
 // Define input schema with Zod
 const InputSchema = z.object({
@@ -28,8 +29,8 @@ export const getSolutionCopyPolicyTool: Tool = {
   title,
   description: 'Get solution copy policy',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
-  inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
-  outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
+  inputSchema: toInputSchema(InputSchema),
+  outputSchema: toOutputSchema(OutputSchema)
 }
 
 // Handler function

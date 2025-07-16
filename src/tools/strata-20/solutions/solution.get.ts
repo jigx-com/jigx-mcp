@@ -4,6 +4,7 @@ import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
 import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
+import { toInputSchema, toOutputSchema } from '../../utils/index.js'
 import { SolutionSchema } from './solution.zod.js'
 
 const InputSchema = z.object({
@@ -29,8 +30,8 @@ export const getSolutionTool: Tool = {
   title,
   description: 'Get solution (SLN)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
-  inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
-  outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
+  inputSchema: toInputSchema(InputSchema),
+  outputSchema: toOutputSchema(OutputSchema)
 }
 
 export async function handleGetSolution(args: unknown, deps: HandlerDeps): Promise<CallToolResult> {

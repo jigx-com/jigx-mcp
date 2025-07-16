@@ -4,7 +4,7 @@ import { getAuth } from '../../../auth/index.js'
 import { API_BASE_URL, API_VERSIONS } from '../../../CONSTANTS.js'
 import type { HandlerDeps } from '../../../types/handler-deps.js'
 import { formatErrorResponse, withRetry } from '../../../utils/error-handler.js'
-import { ContinuationTokenSchema, UserRoleSchema } from '../../utils/index.js'
+import { ContinuationTokenSchema, toInputSchema, toOutputSchema, UserRoleSchema } from '../../utils/index.js'
 import { OrganizationMemberSchema } from './organization-member.zod.js'
 
 // Define input schema with Zod
@@ -36,8 +36,8 @@ export const listOrganizationMembersTool: Tool = {
   title,
   description: 'List organization members (ORG-USRs)',
   annotations: { title, destructiveHint: false, idempotentHint: true, openWorldHint: false, readOnlyHint: true },
-  inputSchema: z.toJSONSchema(InputSchema) as Tool['inputSchema'],
-  outputSchema: z.toJSONSchema(OutputSchema) as Tool['outputSchema']
+  inputSchema: toInputSchema(InputSchema),
+  outputSchema: toOutputSchema(OutputSchema)
 }
 
 // Handler function
